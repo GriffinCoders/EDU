@@ -36,9 +36,9 @@ class Field(models.Model):
 
 class User(AbstractUser):
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profiles')
-    meli_code = models.CharField(max_length=10, null=True)
-    gender = models.CharField(max_length=1, null=True)
-    birth_date = models.DateField(null=True)
+    meli_code = models.CharField(max_length=10, null=True, blank=True)
+    gender = models.CharField(max_length=1, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
     role = models.CharField(max_length=1, choices=UserRoleChoices.choices)
 
 

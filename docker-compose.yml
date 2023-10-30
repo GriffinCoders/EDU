@@ -14,5 +14,32 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
 
+  minio:
+    image: minio/minio
+    hostname: "minio"
+    volumes:
+      - minio:/minio_files
+    env_file:
+      - ".env"
+    command: 'minio server /minio_files --console-address ":9001"'
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    env_file:
+      - ".env"
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc mb --quiet myminio/photos;
+      /usr/bin/mc anonymous set none myminio/photos;
+      "
+
+
 volumes:
   postgres:
+  minio:
