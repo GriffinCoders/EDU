@@ -22,11 +22,31 @@ class UserRoleChoices(models.TextChoices):
     EducationalAssistance = '3', 'EducationalAssistance'
 
 
+class StatusChoices(models.TextChoices):
+    Valid = '0', 'Valid'
+    Deleted = '1', 'Deleted'
+    Pending = '2', 'Pending'
+    Failed = '3', 'Failed'
+
+
+class CourseDayChoices(models.TextChoices):
+    Saturday = '0', 'Saturday'
+    Sunday = '1', 'Sunday'
+    Monday = '2', 'Monday'
+    Tuesday = '3', 'Tuesday'
+    Wednesday = '4', 'Wednesday'
+    Thursday = '5', 'Thursday'
+    Friday = '6', 'Friday'
+
+
+class LessonType(models.TextChoices):
+    General = '0', 'General'
+    Specialized = '1', 'Specialized'
+    Basic = '2', 'Basic'
+
+
 class Term(models.Model):
     name = models.CharField(max_length=128)
-    students = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='terms')
-    professors = models.ForeignKey(ProfessorProfile, on_delete=models.CASCADE)
-    courses_list = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='terms')
     selection_start = models.DateTimeField()
     selection_finish = models.DateTimeField()
     class_start = models.DateTimeField()
@@ -91,8 +111,8 @@ class EducationalAssistanceProfile(models.Model):
 class Lesson(models.Model):
     name = models.CharField(max_length=128)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
-    prerequisites = models.ManyToManyField('self') # Ask hasan
-    requisites = models.ManyToManyField('self') # Ask hasan
+    prerequisites = models.ManyToManyField('self')
+    requisites = models.ManyToManyField('self')
     unit = models.PositiveSmallIntegerField()
     lesson_type = models.CharField(max_length=1, choices=LessonType.choices)
 
@@ -110,66 +130,54 @@ class Course(models.Model):
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
 
 
-class Course_Per_Student(models.Model):
-    registeration = models.ForeignKey(CourseSelection, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=CourseStatusChoices.choices)
-    score = models.FloatField(null=True, blank=True)
-    passed = models.BooleanField(null=True, blank=True)
-
-
-class CourseSelection(models.Model):
+class CourseSelectionRequest(models.Model):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
-    status = models.CharField(max_length=128)
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
     class Meta:
-        unique_together = ('student', 'term')    
-
-class Registeration_Request(models.Model):
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
-    request_situation = models.CharField()
-    created_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+        unique_together = ('student', 'term')
 
 
-class Restoration_Request(models.Model):
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    adding_courses = models.ForeignKey(Course, on_delete=models.CASCADE)
-    removing_courses = models.ForeignKey(Course, on_delete=models.CASCADE)
-    request_situation = models.CharField()
-    created_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+class StudentCourse(models.Model):
+    registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    score = models.FloatField(null=True, blank=True)
+    passed = models.BooleanField(null=True, blank=True)
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class Review_Request(models.Model):
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
-    request_text = models.models.TextField()
+class SubstitutionRequest(models.Model):
+    registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
+    added_courses = models.ManyToManyField(Course, related_name='substitution_added')
+    removed_courses = models.ManyToManyField(Course, related_name='substitution_removed')
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
+
+
+class CourseEmergencyRemovalRequest(models.Model):
+    registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
+    removed_courses = models.ManyToManyField(Course)
+    request_text = models.TextField()
     response_text = models.TextField()
-    created_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class Emergency_Rmoval_Request(models.Model):
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    course = models.OneToOneField(Course, on_delete=models.CASCADE)
-    request_result = models.TextField()
-    student_explanation = models.TextField()
-    educational_assistant_explanation = models.TextField()
-    created_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+class CourseReviewRequest(models.Model):
+    student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE)
+    request_text = models.TextField()
+    response_text = models.TextField()
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class Term_Removal_Request(models.Model):
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    term = models.OneToOneField(Term, on_delete=models.CASCADE)
-    request_result = models.TextField()
-    student_explanation = models.TextField()
-    educational_assistant_explanation = models.TextField()
-    created_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+class TermRemovalRequest(models.Model):
+    registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
+    request_text = models.TextField()
+    response_text = models.TextField()
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class Employment_Application(models.Model):
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    employment_application_file = models.TextField()
-    term = models.OneToOneField(Term, on_delete=models.CASCADE)
-    location = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+class StudentRequests(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    request_text = models.TextField()
+    response_text = models.TextField()
+    status = models.CharField(max_length=1, choices=StatusChoices.choices)
