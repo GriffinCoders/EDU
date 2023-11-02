@@ -9,7 +9,15 @@ class StatusChoices(models.TextChoices):
     Rejected = '4', 'Rejected'
 
 
-class Term(models.Model):
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Term(BaseModel):
     name = models.CharField(max_length=128)
     selection_start = models.DateTimeField()
     selection_finish = models.DateTimeField()
@@ -22,11 +30,11 @@ class Term(models.Model):
     term_finish = models.DateTimeField()
 
 
-class College(models.Model):
+class College(BaseModel):
     name = models.CharField(max_length=128)
 
 
-class Field(models.Model):
+class Field(BaseModel):
     name = models.CharField(max_length=128)
     educational_group = models.CharField(max_length=128)
     college = models.ForeignKey(College, on_delete=models.CASCADE)

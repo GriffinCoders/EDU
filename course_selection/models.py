@@ -1,11 +1,11 @@
 from django.db import models
 
-from common.models import Term, StatusChoices
+from common.models import Term, StatusChoices, BaseModel
 from course.models import Course
 from student.models import StudentProfile
 
 
-class CourseSelectionRequest(models.Model):
+class CourseSelectionRequest(BaseModel):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
@@ -14,7 +14,7 @@ class CourseSelectionRequest(models.Model):
         unique_together = ('student', 'term')
 
 
-class StudentCourse(models.Model):
+class StudentCourse(BaseModel):
     registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     score = models.FloatField(null=True, blank=True)
@@ -22,14 +22,14 @@ class StudentCourse(models.Model):
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class SubstitutionRequest(models.Model):
+class SubstitutionRequest(BaseModel):
     registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
     added_courses = models.ManyToManyField(Course, related_name='substitution_added')
     removed_courses = models.ManyToManyField(Course, related_name='substitution_removed')
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class CourseEmergencyRemovalRequest(models.Model):
+class CourseEmergencyRemovalRequest(BaseModel):
     registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
     removed_courses = models.ManyToManyField(Course)
     request_text = models.TextField()
@@ -37,14 +37,14 @@ class CourseEmergencyRemovalRequest(models.Model):
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class CourseAppealRequest(models.Model):
+class CourseAppealRequest(BaseModel):
     student_course = models.ForeignKey(StudentCourse, on_delete=models.CASCADE)
     request_text = models.TextField()
     response_text = models.TextField()
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
 
-class TermRemovalRequest(models.Model):
+class TermRemovalRequest(BaseModel):
     registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
     request_text = models.TextField()
     response_text = models.TextField()

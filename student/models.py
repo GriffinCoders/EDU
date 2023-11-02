@@ -1,7 +1,7 @@
 from django.db import models
 
 from account.models import User
-from common.models import Term, College, Field, StatusChoices
+from common.models import Term, College, Field, StatusChoices, BaseModel
 from professor.models import ProfessorProfile
 
 
@@ -13,7 +13,7 @@ class GradeChoices(models.TextChoices):
     Postdoctoral = '4', 'Postdoctoral'
 
 
-class StudentProfile(models.Model):
+class StudentProfile(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     entry_year = models.PositiveSmallIntegerField(null=True)
     entry_term = models.ForeignKey(Term, on_delete=models.SET_NULL, null=True)
@@ -25,7 +25,7 @@ class StudentProfile(models.Model):
     grade = models.CharField(max_length=1, choices=GradeChoices.choices)
 
 
-class StudentRequests(models.Model):
+class StudentRequests(BaseModel):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     request_text = models.TextField()
     request_title = models.CharField(max_length=128)
