@@ -45,7 +45,10 @@ INSTALLED_APPS = [
 
     'storages',
 
+    'common',
     'account',
+    'student',
+    'professor',
 ]
 
 MIDDLEWARE = [
