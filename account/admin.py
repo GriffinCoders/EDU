@@ -26,11 +26,4 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
-# admin.site.register(models.Term)
-# admin.site.register(models.College)
-# admin.site.register(models.Field)
 admin.site.register(models.User, UserAdmin)
-# admin.site.register(models.ProfessorProfile)
-# admin.site.register(models.StudentProfile)
-# admin.site.register(models.ItManagerProfile)
-# admin.site.register(models.EducationalAssistanceProfile)
