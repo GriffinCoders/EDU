@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-from common.models import College, Field, Term
+from common.models import College, Field, Term, BaseModel
 
 
 class GenderChoices(models.TextChoices):
@@ -16,7 +16,7 @@ class UserRoleChoices(models.TextChoices):
     EducationalAssistance = '3', 'EducationalAssistance'
 
 
-class User(AbstractUser):
+class User(AbstractUser, BaseModel):
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profiles')
     meli_code = models.CharField(max_length=10, null=True, blank=True)
     gender = models.CharField(max_length=1, null=True, blank=True)

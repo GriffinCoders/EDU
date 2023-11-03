@@ -1,6 +1,6 @@
 from django.db import models
 
-from common.models import College, Term
+from common.models import College, Term, BaseModel
 from professor.models import ProfessorProfile
 
 
@@ -20,7 +20,7 @@ class LessonTypeChoices(models.TextChoices):
     Basic = '2', 'Basic'
 
 
-class Lesson(models.Model):
+class Lesson(BaseModel):
     name = models.CharField(max_length=128)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
     prerequisites = models.ManyToManyField('self')
@@ -29,7 +29,7 @@ class Lesson(models.Model):
     lesson_type = models.CharField(max_length=1, choices=LessonTypeChoices.choices)
 
 
-class Course(models.Model):
+class Course(BaseModel):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     class_day = models.CharField(max_length=1, choices=CourseDayChoices.choices)
     class_start_time = models.CharField(max_length=128)
