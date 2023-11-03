@@ -28,6 +28,9 @@ class Lesson(BaseModel):
     unit = models.PositiveSmallIntegerField()
     lesson_type = models.CharField(max_length=1, choices=LessonTypeChoices.choices)
 
+    def __str__(self):
+        return self.name
+
 
 class Course(BaseModel):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
@@ -40,3 +43,6 @@ class Course(BaseModel):
     professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     capacity = models.PositiveSmallIntegerField()
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.lesson.name + " in term: " + self.term.name
