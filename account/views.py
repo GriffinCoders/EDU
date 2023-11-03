@@ -53,15 +53,16 @@ class ResetPasswordView(APIView):
                 otp = str(random.randint(111111, 999999))
                 # TODO: send the otp
                 print("otp: " + otp)
-                cache.set(cache_prefix, otp, timeout=3600)
+                cache.set(cache_prefix, otp, timeout=90)
                 return Response({"msg": "Otp sent"}, status.HTTP_200_OK)
             else:
                 return Response({"msg": "Otp already sent"}, status=status.HTTP_400_BAD_REQUEST)
         if not user_otp or not new_password:
             return Response({"msg": "Must include otp and new password"}, status=status.HTTP_400_BAD_REQUEST)
         cached_otp = cache.get(cache_prefix, None)
-        if not user_otp == cached_otp:
+        if not str(user_otp) == cached_otp:
             return Response({"msg": "Invalid otp"}, status=status.HTTP_400_BAD_REQUEST)
         user.set_password(new_password)
         user.save()
+        cache.delete(cache_prefix)
         return Response({"msg": "New password saved"}, status=status.HTTP_200_OK)
