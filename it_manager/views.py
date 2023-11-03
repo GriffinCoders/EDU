@@ -1,13 +1,11 @@
-from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
+from rest_framework.mixins import ListModelMixin
 from rest_framework.pagination import PageNumberPagination
-import professor
 from professor.models import ProfessorProfile
-
-# from .serializers import ProfessorProfileSerializer
+from professor.serializer import ProfessorProfileSerializer
 
 class ListProfessorProfile(ListModelMixin, GenericAPIView):
-    # serializer_class = ProfessorProfileSerializer
+    serializer_class = ProfessorProfileSerializer
     pagination_class = PageNumberPagination
     page_size = 10
 
@@ -43,21 +41,17 @@ class ListProfessorProfile(ListModelMixin, GenericAPIView):
         return self.list(request, *args, **kwargs)
     
 
-class CreateProfessorProfileView(CreateModelMixin, GenericAPIView):
-    # serializer_class = ProfessorProfileSerializer
+class CreateProfessorProfileView(CreateAPIView):
+    serializer_class = ProfessorProfileSerializer
+    queryset = ProfessorProfile.objects.all()
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-        return self.create(request, *args, **kwargs)
 
 class RetrieveProfessorProfileView(RetrieveAPIView):
-    # serializer_class = ProfessorProfileSerializer
+    serializer_class = ProfessorProfileSerializer
     queryset = ProfessorProfile.objects.all()
 
 class UpdateProfessorProfileView(UpdateAPIView):
-    # serializer_class = ProfessorProfileSerializer
+    serializer_class = ProfessorProfileSerializer
     queryset = ProfessorProfile.objects.all()
 
 class DeleteProfessorProfileView(DestroyAPIView):
