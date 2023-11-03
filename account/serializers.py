@@ -28,3 +28,9 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    new_password = serializers.CharField(style={"input_type": "password"}, write_only=True, required=False)
+    otp = serializers.IntegerField(required=False)
