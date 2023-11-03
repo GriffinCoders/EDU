@@ -13,6 +13,8 @@ psycopg2-binary = "^2.9.9"
 pillow = "^10.1.0"
 django-storages = "^1.14.2"
 boto3 = "^1.28.73"
+djangorestframework = "^3.14.0"
+redis = "^5.0.1"
 
 
 [build-system]
