@@ -4,10 +4,10 @@ from rest_framework import routers
 
 from . import views
 
-app_name = "password"
+app_name = "educational_assistance"
 
 router = routers.DefaultRouter()
-router.register('student', views.StudentViewSet, basename='student')
-router.register('professor', views.ProfessorViewSet, basename='professor')
+router.register('student', views.AssistanceStudentViewSet, basename='students')
+router.register('professor', views.AssistanceProfessorViewSet, basename='professors')
 
 urlpatterns = router.urls

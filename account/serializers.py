@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 
+from account.models import User
+
 
 class AuthTokenSerializer(serializers.Serializer):
     username = serializers.CharField(
@@ -34,3 +36,22 @@ class ResetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     new_password = serializers.CharField(style={"input_type": "password"}, write_only=True, required=False)
     otp = serializers.IntegerField(required=False)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "profile_pic",
+            "meli_code",
+            "gender",
+            "birth_date",
+            "email",
+        ]
+        extra_kwargs = {
+            "username": {"read_only": True},
+        }
