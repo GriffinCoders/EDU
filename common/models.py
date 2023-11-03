@@ -29,9 +29,15 @@ class Term(BaseModel):
     exams_start = models.DateTimeField()
     term_finish = models.DateTimeField()
 
+    def __str__(self):
+        return self.name
+
 
 class College(BaseModel):
     name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
 
 
 class Field(BaseModel):
@@ -40,3 +46,6 @@ class Field(BaseModel):
     college = models.ForeignKey(College, on_delete=models.CASCADE)
     units = models.PositiveSmallIntegerField()
     grade = models.CharField(max_length=1)
+
+    def __str__(self):
+        return self.name

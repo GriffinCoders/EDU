@@ -22,3 +22,6 @@ class User(AbstractUser, BaseModel):
     gender = models.CharField(max_length=1, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     role = models.CharField(max_length=1, choices=UserRoleChoices.choices)
+
+    def __str__(self):
+        return self.username
