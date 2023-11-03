@@ -1,17 +1,16 @@
-from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from professor.models import ProfessorProfile
+from professor.serializers import ProfessorSerializer
+from professor.views import ProfessorViewSet
 from student.models import StudentProfile
-from . import serializers
+from student.views import StudentViewSet
 from .models import EducationalAssistanceProfile
 from .permissions import IsEducationalAssistance
 
 
-class StudentViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.StudentSerializer
+class AssistanceStudentViewSet(StudentViewSet):
     permission_classes = [IsAuthenticated, IsEducationalAssistance]
-    http_method_names = ['get', 'put']
 
     def get_queryset(self):
         college_id = EducationalAssistanceProfile.objects.get(user=self.request.user).college_id
@@ -20,8 +19,8 @@ class StudentViewSet(viewsets.ModelViewSet):
         )
 
 
-class ProfessorViewSet(StudentViewSet):
-    serializer_class = serializers.ProfessorSerializer
+class AssistanceProfessorViewSet(ProfessorViewSet):
+    serializer_class = ProfessorSerializer
 
     def get_queryset(self):
         college_id = EducationalAssistanceProfile.objects.get(user=self.request.user).college_id
