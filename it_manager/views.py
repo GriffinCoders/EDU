@@ -3,6 +3,8 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework.pagination import PageNumberPagination
 from professor.models import ProfessorProfile
 from professor.serializer import ProfessorProfileSerializer
+from account.models import User
+from common.models import College, Field
 
 class ListProfessorProfile(ListModelMixin, GenericAPIView):
     serializer_class = ProfessorProfileSerializer
