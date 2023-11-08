@@ -7,7 +7,6 @@ from account.models import User
 
 class ResetPasswordTestCase(APITestCase):
     def setUp(self):
-        self.user_with_out_email = User.objects.create_user(username="reset_password", password="reset_password")
         self.user = User.objects.create_user(username="reset_password2",
                                              password="reset_password2",
                                              email="test@test.com")
