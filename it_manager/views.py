@@ -6,18 +6,19 @@ from educational_assistance.models import EducationalAssistanceProfile
 from common.models import Term, College
 from common.serializers import TermSerializer, CollegeSerializer
 from .permissions import IsItManager
-from .serializers import AssistantSerializer
-
+from educational_assistance.serializers import EducationalAssistanceSerializer
 
 
 class ItMangerAssistantApiView(generics.ListCreateAPIView):
     queryset = EducationalAssistanceProfile.objects.all()
-    serializer_class = AssistantSerializer
+    permission_classes = [IsAuthenticated, IsItManager]
+    serializer_class = EducationalAssistanceSerializer
 
 
 class ItMangerAssistantDtailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = EducationalAssistanceProfile.objects.all()
-    serializer_class = AssistantSerializer
+    permission_classes = [IsAuthenticated, IsItManager]
+    serializer_class = EducationalAssistanceSerializer
 
 
 class TermViewSet(viewsets.ModelViewSet):
