@@ -174,3 +174,6 @@ AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
 AWS_S3_FILE_OVERWRITE = False
+
+CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
+CELERY_RESULT_BACKEND = 'rpc://'
