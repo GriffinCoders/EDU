@@ -1,9 +1,9 @@
-from bakery import Baker
+from bakery import baker
 from .models import ProfessorProfile
 from account.factories import UserFactory
 from common.factories import CollegeFactory, FieldFactory
 
-baker = Baker()
+
 
 class ProfessorProfileFactory(baker.Baker):
     class Meta:

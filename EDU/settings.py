@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'course_selection',
     
     'rest_framework',
+    # 'bakery',
 ]
 
 MIDDLEWARE = [

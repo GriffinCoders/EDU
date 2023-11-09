@@ -1,8 +1,8 @@
-from bakery import Baker
+from bakery import baker
 from .models import College, Field  
 from .serializer import CollegeSerializer, FieldSerializer  
 
-baker = Baker()
+
 
 class CollageFactory(baker.Baker):
     class Meta:
