@@ -15,7 +15,7 @@ class CourseSelectionRequest(BaseModel):
 
 
 class StudentCourse(BaseModel):
-    registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
+    registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE, related_name="student_courses")
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     score = models.FloatField(null=True, blank=True)
     passed = models.BooleanField(null=True, blank=True)

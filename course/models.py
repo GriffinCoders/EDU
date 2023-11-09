@@ -23,8 +23,8 @@ class LessonTypeChoices(models.TextChoices):
 class Lesson(BaseModel):
     name = models.CharField(max_length=128)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
-    prerequisites = models.ManyToManyField('self')
-    requisites = models.ManyToManyField('self')
+    prerequisites = models.ManyToManyField('self', blank=True)
+    requisites = models.ManyToManyField('self', blank=True)
     unit = models.PositiveSmallIntegerField()
     lesson_type = models.CharField(max_length=1, choices=LessonTypeChoices.choices)
 
