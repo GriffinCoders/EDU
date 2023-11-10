@@ -8,6 +8,7 @@ from student.models import StudentProfile
 class CourseSelectionRequest(BaseModel):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
+    valid_unit = models.PositiveSmallIntegerField()
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
     class Meta:
