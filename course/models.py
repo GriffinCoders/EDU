@@ -35,11 +35,10 @@ class Lesson(BaseModel):
 class Course(BaseModel):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     class_day = models.CharField(max_length=1, choices=CourseDayChoices.choices)
-    class_start_time = models.CharField(max_length=128)
+    class_start_time = models.TimeField()
     class_duration = models.FloatField()
     class_location = models.CharField(max_length=255, null=True, blank=True)
-    exam_date = models.CharField(max_length=255, null=True, blank=True)
-    exam_site = models.OneToOneField(College, on_delete=models.CASCADE)
+    exam_specs = models.CharField(max_length=255, null=True, blank=True)
     professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     capacity = models.PositiveSmallIntegerField()
     term = models.ForeignKey(Term, on_delete=models.CASCADE)

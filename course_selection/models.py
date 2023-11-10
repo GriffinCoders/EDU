@@ -21,6 +21,9 @@ class StudentCourse(BaseModel):
     passed = models.BooleanField(null=True, blank=True)
     status = models.CharField(max_length=1, choices=StatusChoices.choices)
 
+    class Meta:
+        unique_together = ('registration', 'course')
+
 
 class SubstitutionRequest(BaseModel):
     registration = models.ForeignKey(CourseSelectionRequest, on_delete=models.CASCADE)
