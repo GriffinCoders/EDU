@@ -1,15 +1,21 @@
-from bakery import baker
+from factory import Factory, SubFactory, Faker
 from .models import College, Field  
 from .serializer import CollegeSerializer, FieldSerializer  
 
 
 
-class CollageFactory(baker.Baker):
+class CollegeFactory(Factory):
     class Meta:
-        model = College  
-        serializer = CollegeSerializer
+        model = College
 
-class FieldFactory(baker.Baker):
+    name = Faker('company')
+
+class FieldFactory(Factory):
     class Meta:
-        model = Field  
-        serializer = FieldSerializer
+        model = Field
+
+    name = Faker('word')
+    educational_group = Faker('word')
+    college = SubFactory(CollegeFactory)
+    units = Faker('random_number')
+    grade = Faker('random_number')
