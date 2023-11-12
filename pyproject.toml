@@ -14,9 +14,16 @@ pillow = "^10.1.0"
 django-storages = "^1.14.2"
 boto3 = "^1.28.73"
 djangorestframework = "^3.14.0"
+celery = "^5.3.5"
+rabbitmq-server = "^0.0.1"
 redis = "^5.0.1"
 model-bakery = "^1.17.0"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-django = "^4.7.0"
+model-bakery = "^1.17.0"
 
 [build-system]
 requires = ["poetry-core"]

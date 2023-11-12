@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
+from account.models import User, UserRoleChoices
 from account.serializers import UserSerializer
+from utils.user_profile import update_user_profile
 from .models import ProfessorProfile
 
 
@@ -20,23 +22,14 @@ class ProfessorSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
-    def update(self, instance, validated_data):
+    def create(self, validated_data):
+        # get a user
         user_data = validated_data.pop('user')
+        # create an instance of the user
+        user = User.objects.create(**user_data, role=UserRoleChoices.Professor)
+        validated_data['user'] = user
 
-        # Update Profile Picture of user if exists
-        profile_pic = user_data.pop('profile_pic')
-        if profile_pic:
-            setattr(instance.user, 'profile_pic', profile_pic)
+        return ProfessorProfile.objects.create(**validated_data)
 
-        # Update the user
-        for attr, value in user_data.items():
-            setattr(instance.user, attr, value)
-
-        # Update the instance
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-
-        instance.user.save()
-        instance.save()
-
-        return instance
+    def update(self, instance, validated_data):
+        return update_user_profile(instance, validated_data)
