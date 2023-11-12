@@ -29,6 +29,9 @@ class Term(BaseModel):
     exams_start = models.DateTimeField()
     term_finish = models.DateTimeField()
 
+    def __str__(self):
+        return self.name
+
 
 class College(BaseModel):
     name = models.CharField(max_length=128)

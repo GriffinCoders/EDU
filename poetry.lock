@@ -265,6 +265,7 @@ django = ">=3.0"
 pytz = "*"
 
 [[package]]
+<<<<<<< HEAD
 name = "factory-boy"
 version = "3.3.0"
 description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
@@ -308,6 +309,8 @@ files = [
 ]
 
 [[package]]
+=======
+>>>>>>> master
 name = "jmespath"
 version = "1.0.1"
 description = "JSON Matching Expressions"
@@ -319,6 +322,7 @@ files = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "kombu"
 version = "5.3.3"
 description = "Messaging library for Python."
@@ -351,6 +355,8 @@ yaml = ["PyYAML (>=3.10)"]
 zookeeper = ["kazoo (>=2.8.0)"]
 
 [[package]]
+=======
+>>>>>>> master
 name = "model-bakery"
 version = "1.17.0"
 description = "Smart object creation facility for Django."
@@ -369,6 +375,7 @@ docs = ["sphinx", "sphinx-rtd-theme"]
 test = ["black", "coverage", "mypy", "pillow", "pytest", "pytest-django", "ruff"]
 
 [[package]]
+<<<<<<< HEAD
 name = "packaging"
 version = "23.2"
 description = "Core utilities for Python packages"
@@ -380,6 +387,8 @@ files = [
 ]
 
 [[package]]
+=======
+>>>>>>> master
 name = "pillow"
 version = "10.1.0"
 description = "Python Imaging Library (Fork)"
@@ -634,6 +643,7 @@ files = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "rabbitmq-server"
 version = "0.0.1"
 description = "rabbitmq-server"
@@ -643,6 +653,22 @@ files = [
     {file = "rabbitmq-server-0.0.1.tar.gz", hash = "sha256:ba71605289c52164b528e13973b3d59f85c0d62bea8d591624eeb35fbd29893f"},
 ]
 
+=======
+name = "redis"
+version = "5.0.1"
+description = "Python client for Redis database and key-value store"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "redis-5.0.1-py3-none-any.whl", hash = "sha256:ed4802971884ae19d640775ba3b03aa2e7bd5e8fb8dfaed2decce4d0fc48391f"},
+    {file = "redis-5.0.1.tar.gz", hash = "sha256:0dab495cd5753069d3bc650a0dde8a8f9edde16fc5691b689a566eda58100d0f"},
+]
+
+[package.extras]
+hiredis = ["hiredis (>=1.0.0)"]
+ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
+
+>>>>>>> master
 [[package]]
 name = "s3transfer"
 version = "0.7.0"
@@ -740,4 +766,8 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
+<<<<<<< HEAD
 content-hash = "c0414dcd06be6cda10de447738e01f3c4eb8329d4876ec0cc75dc83e18f496b1"
+=======
+content-hash = "3e1f23944cea826d9b7a5b818a5408db6315c78b24f5ec95871d7cf125e35849"
+>>>>>>> master

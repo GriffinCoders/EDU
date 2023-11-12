@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -22,3 +24,16 @@ class User(AbstractUser, BaseModel):
     gender = models.CharField(max_length=1, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     role = models.CharField(max_length=1, choices=UserRoleChoices.choices)
+
+    def __str__(self):
+        return self.username
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            while True:
+                # Generate a random username of 12 digits
+                random_username = ''.join([str(random.randint(0, 9)) for _ in range(12)])
+                if not User.objects.filter(username=random_username).exists():
+                    self.username = random_username
+                    break
+        super().save(*args, **kwargs)
