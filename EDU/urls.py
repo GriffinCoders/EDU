@@ -24,4 +24,5 @@ urlpatterns = [
     path('professor/', include('professor.urls')),
     path('assistance/', include('educational_assistance.urls')),
     path('it-manager/', include('it_manager.urls')),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]

@@ -35,6 +35,7 @@ class TermSerializer(serializers.ModelSerializer):
             "emergency_removal_finish",
             "exams_start",
             "term_finish",
+            "include_valid_years",
         ]
 
 

@@ -23,8 +23,8 @@ class LessonTypeChoices(models.TextChoices):
 class Lesson(BaseModel):
     name = models.CharField(max_length=128)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
-    prerequisites = models.ManyToManyField('self', blank=True)
-    requisites = models.ManyToManyField('self', blank=True)
+    prerequisites = models.ManyToManyField('Lesson', blank=True, related_name='+')
+    requisites = models.ManyToManyField('Lesson', blank=True, related_name='+')
     unit = models.PositiveSmallIntegerField()
     lesson_type = models.CharField(max_length=1, choices=LessonTypeChoices.choices)
 
@@ -44,4 +44,5 @@ class Course(BaseModel):
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.lesson.name + " in term: " + self.term.name
+        return self.lesson.name + " in day: " + self.class_day + " in time: " \
+            + str(self.class_start_time) + " in term: " + self.term.name
