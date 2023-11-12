@@ -14,16 +14,16 @@
 #     order = Faker('random_number')
 
 
-from model_bakery import baker
+# from model_bakery import baker
 
 
-class ProfessorProfileFactory:
-    @staticmethod
-    def create_professor_profile():
-        return baker.make('ProfessorProfile',
-            user=baker.subfactory(UserFactory.create_user),
-            college=baker.foreign_key(CollegeFactory.create_college),
-            field=baker.foreign_key(FieldFactory.create_field),
-            orientation=baker.Faker('word'),
-            order=baker.Faker('word')
-        )
+# class ProfessorProfileFactory:
+#     @staticmethod
+#     def create_professor_profile():
+#         return baker.make('ProfessorProfile',
+#                           user=baker.subfactory(UserFactory.create_user),
+#                           college=baker.foreign_key(CollegeFactory.create_college),
+#                           field=baker.foreign_key(FieldFactory.create_field),
+#                           orientation=baker.Faker('word'),
+#                           order=baker.Faker('word')
+#                         )

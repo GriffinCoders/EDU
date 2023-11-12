@@ -1,19 +1,16 @@
-from rest_framework.generics import GenericAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, CreateAPIView
 from rest_framework.mixins import ListModelMixin
 from rest_framework.pagination import PageNumberPagination
-from professor.models import ProfessorProfile
-from professor.serializer import ProfessorProfileSerializer
-
-
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 
-from educational_assistance.models import EducationalAssistanceProfile
 from common.models import Term, College
 from common.serializers import TermSerializer, CollegeSerializer
-from .permissions import IsItManager
+from professor.models import ProfessorProfile
+from educational_assistance.models import EducationalAssistanceProfile
 from educational_assistance.serializers import EducationalAssistanceSerializer
+from professor.serializers import ProfessorSerializer
+from .permissions import IsItManager
 
 
 class ItMangerAssistantApiView(generics.ListCreateAPIView):
@@ -39,8 +36,9 @@ class CollegeViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsItManager]
     queryset = College.objects.all()
 
-class ListProfessorProfile(ListModelMixin, GenericAPIView):
-    serializer_class = ProfessorProfileSerializer
+
+class ListProfessorProfile(ListModelMixin, generics.GenericAPIView):
+    serializer_class = ProfessorSerializer
     pagination_class = PageNumberPagination
     page_size = 10
 
@@ -96,18 +94,20 @@ class ListProfessorProfile(ListModelMixin, GenericAPIView):
         return self.list(request, *args, **kwargs)
     
 
-class CreateProfessorProfileView(CreateAPIView):
-    serializer_class = ProfessorProfileSerializer
+class CreateProfessorProfileView(generics.CreateAPIView):
+    serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
 
 
-class RetrieveProfessorProfileView(RetrieveAPIView):
-    serializer_class = ProfessorProfileSerializer
+class RetrieveProfessorProfileView(generics.RetrieveAPIView):
+    serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
 
-class UpdateProfessorProfileView(UpdateAPIView):
-    serializer_class = ProfessorProfileSerializer
+
+class UpdateProfessorProfileView(generics.UpdateAPIView):
+    serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
 
-class DeleteProfessorProfileView(DestroyAPIView):
+
+class DeleteProfessorProfileView(generics.DestroyAPIView):
     queryset = ProfessorProfile.objects.all()

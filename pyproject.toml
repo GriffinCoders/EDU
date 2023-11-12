@@ -16,8 +16,6 @@ boto3 = "^1.28.73"
 djangorestframework = "^3.14.0"
 celery = "^5.3.5"
 rabbitmq-server = "^0.0.1"
-factory-boy = "^3.3.0"
-faker = "^20.0.0"
 redis = "^5.0.1"
 model-bakery = "^1.17.0"
 
