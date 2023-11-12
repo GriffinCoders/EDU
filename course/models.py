@@ -23,8 +23,8 @@ class LessonTypeChoices(models.TextChoices):
 class Lesson(BaseModel):
     name = models.CharField(max_length=128)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
-    prerequisites = models.ManyToManyField('self')
-    requisites = models.ManyToManyField('self')
+    prerequisites = models.ManyToManyField('Lesson', blank=True, related_name='+')
+    requisites = models.ManyToManyField('Lesson', blank=True, related_name='+')
     unit = models.PositiveSmallIntegerField()
     lesson_type = models.CharField(max_length=1, choices=LessonTypeChoices.choices)
 
@@ -35,14 +35,14 @@ class Lesson(BaseModel):
 class Course(BaseModel):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     class_day = models.CharField(max_length=1, choices=CourseDayChoices.choices)
-    class_start_time = models.CharField(max_length=128)
+    class_start_time = models.TimeField()
     class_duration = models.FloatField()
     class_location = models.CharField(max_length=255, null=True, blank=True)
-    exam_date = models.CharField(max_length=255, null=True, blank=True)
-    exam_site = models.OneToOneField(College, on_delete=models.CASCADE)
+    exam_specs = models.CharField(max_length=255, null=True, blank=True)
     professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     capacity = models.PositiveSmallIntegerField()
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.lesson.name + " in term: " + self.term.name
+        return self.lesson.name + " in day: " + self.class_day + " in time: " \
+            + str(self.class_start_time) + " in term: " + self.term.name
