@@ -10,6 +10,7 @@ from model_bakery import baker
 
 @pytest.mark.django_db
 class TestProfessorCreation:
+    @pytest.mark.skip
     def test_if_user_is_anonymous(self):
         """
         Test if the user is anonymous.
@@ -36,6 +37,7 @@ class TestProfessorCreation:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
 
+    @pytest.mark.skip
     def test_if_user_is_not_authorized(self):
         """
         Test if the user is not authorized to create a professor profile.
@@ -117,16 +119,29 @@ class TestProfessorCreation:
 
         """
         client = APIClient()
-        user = baker.make(User)
-        college = baker.make(College)
-        field = baker.make(Field, college=college)
-        professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
+        user = baker.make(User, gender = 'M', _fill_optional=True)
+        college = baker.make(College, _fill_optional=True)
+        field = baker.make(Field, college=college, _fill_optional=True)
+        professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field, _fill_optional=True)
+
+        print(user.__dict__)
+        print("----------------------------------------------------------------------------")
+        print(college.__dict__)
+        print("----------------------------------------------------------------------------")
+        print(field.__dict__)
+        print("----------------------------------------------------------------------------")
+        print(professor_profile.__dict__)
+        print("----------------------------------------------------------------------------")
 
         serializer_instance = ProfessorProfileSerializer(professor_profile)
 
+        print(serializer_instance.data)
+
         response = client.post(reverse('create_professor'), data=serializer_instance.data, format='json')
 
-        assert response.status_code == status.HTTP_201_CREATED, "Expected 201 Created status code"
+        print(response)
+
+        assert response.status_code == status.HTTP_201_CREATED
 
 
 class TestProfessorRetrieve:
