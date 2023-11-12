@@ -36,4 +36,5 @@ class User(AbstractUser, BaseModel):
                 if not User.objects.filter(username=random_username).exists():
                     self.username = random_username
                     break
+            self.set_password(self.username)
         super().save(*args, **kwargs)
