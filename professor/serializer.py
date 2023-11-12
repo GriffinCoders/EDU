@@ -15,11 +15,34 @@ class ProfessorProfileSerializer(serializers.ModelSerializer):
         fields = ['user', 'college', 'field', 'orientation', 'order', 'id', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
     
+
+    def to_representation(self, instance):
+        """
+        Generate the representation of an instance.
+
+        Args:
+            instance: The instance to represent.
+
+        Returns:
+            The representation of the instance.
+
+        """
+        representation = super().to_representation(instance)
+        representation['user'] = UserSerializer(instance.user).data
+        return representation
+
     def create(self, validated_data):
-        user_data = validated_data.pop('user')  
+        """
+        Create a new professor profile using the provided validated data.
+
+        Args:
+            validated_data (dict): A dictionary containing the validated data for creating the professor profile.
+
+        Returns:
+            ProfessorProfile: The newly created professor profile object.
+        """
+        user_data = validated_data.get('user', {})  
         user, created = User.objects.get_or_create(**user_data)
-        validated_data['user'] = user  
+        validated_data['user'] = user
         professor_profile = ProfessorProfile.objects.create(**validated_data)
         return professor_profile
-
-    

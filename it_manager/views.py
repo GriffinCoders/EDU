@@ -3,8 +3,6 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework.pagination import PageNumberPagination
 from professor.models import ProfessorProfile
 from professor.serializer import ProfessorProfileSerializer
-from account.models import User
-from common.models import College, Field
 
 class ListProfessorProfile(ListModelMixin, GenericAPIView):
     serializer_class = ProfessorProfileSerializer
@@ -12,6 +10,15 @@ class ListProfessorProfile(ListModelMixin, GenericAPIView):
     page_size = 10
 
     def get_queryset(self):
+        """
+        Retrieves the queryset of ProfessorProfile objects based on the provided query parameters.
+
+        Parameters:
+            self (object): The instance of the class.
+        
+        Returns:
+            queryset (QuerySet): The queryset of ProfessorProfile objects that match the provided query parameters.
+        """
         queryset = ProfessorProfile.objects.all()
 
         name = self.request.query_params.get('first_name')
@@ -40,6 +47,17 @@ class ListProfessorProfile(ListModelMixin, GenericAPIView):
         return queryset
     
     def get(self, request, *args, **kwargs):
+        """
+        Get method for the API endpoint.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            HttpResponse: The HTTP response object.
+        """
         return self.list(request, *args, **kwargs)
     
 
