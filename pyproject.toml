@@ -18,11 +18,13 @@ celery = "^5.3.5"
 rabbitmq-server = "^0.0.1"
 factory-boy = "^3.3.0"
 faker = "^20.0.0"
+model-bakery = "^1.17.0"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
 pytest-django = "^4.7.0"
+model-bakery = "^1.17.0"
 
 [build-system]
 requires = ["poetry-core"]
