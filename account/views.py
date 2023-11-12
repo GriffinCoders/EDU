@@ -25,7 +25,8 @@ class TokenLoginView(APIView):
 
 
 class TokenLogoutView(APIView):
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         try:
             Token.objects.get(user=request.user).delete()
         except Token.DoesNotExist:

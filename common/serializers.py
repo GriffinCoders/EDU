@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from common.models import Term, College
+from .models import Term, College, Field
 
 
 class CustomChoiceField(serializers.ChoiceField):
@@ -36,6 +36,8 @@ class TermSerializer(serializers.ModelSerializer):
             "exams_start",
             "term_finish",
             "include_valid_years",
+            'created_at',
+            'updated_at',
         ]
 
 
@@ -45,4 +47,21 @@ class CollegeSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            'created_at',
+            'updated_at',
+        ]
+
+
+class FieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Field
+        fields = [
+            'id',
+            'name',
+            'educational_group',
+            'college',
+            'units',
+            'grade',
+            'created_at',
+            'updated_at',
         ]
