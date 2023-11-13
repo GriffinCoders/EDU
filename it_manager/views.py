@@ -38,6 +38,7 @@ class CollegeViewSet(viewsets.ModelViewSet):
 
 
 class ListProfessorProfile(ListModelMixin, generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
     serializer_class = ProfessorSerializer
     pagination_class = PageNumberPagination
     page_size = 10
@@ -95,19 +96,23 @@ class ListProfessorProfile(ListModelMixin, generics.GenericAPIView):
     
 
 class CreateProfessorProfileView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
     serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
 
 
 class RetrieveProfessorProfileView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
     serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
 
 
 class UpdateProfessorProfileView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
     serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
 
 
 class DeleteProfessorProfileView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
     queryset = ProfessorProfile.objects.all()
