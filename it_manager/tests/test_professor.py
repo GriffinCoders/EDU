@@ -23,7 +23,7 @@ def make_authenticated_request(api_client):
         if user:
             api_client.force_authenticate(user=user)
 
-        url = reverse(url_name, args=[args])
+        url = reverse(url_name, args=args)
         request_func = getattr(api_client, method.lower())
 
         if method in ('GET', 'DELETE'):
@@ -42,7 +42,7 @@ def make_not_authenticated_request(api_client):
     """
     def make_http_request(method, url_name, args = None, data=None, format='json'):
         
-        url = reverse(url_name, args=[args])
+        url = reverse(url_name, args=args)
         request_func = getattr(api_client, method.lower())
 
         if method in ('GET', 'DELETE'):
@@ -175,7 +175,7 @@ class TestProfessorRetrieve:
         
         professor = professor_instance_one
 
-        response = make_not_authenticated_request('GET', 'it_manager:detail_professor', args =professor.id, format='json')
+        response = make_not_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json')
         
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -194,7 +194,7 @@ class TestProfessorRetrieve:
         """
         professor = professor_instance_one
 
-        response = make_authenticated_request('GET', 'it_manager:detail_professor', args =professor.id, format='json', user=oridionary_user)
+        response = make_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json', user=oridionary_user)
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
     
@@ -212,162 +212,200 @@ class TestProfessorRetrieve:
         """
         professor = professor_instance_one
 
-        response = make_authenticated_request('GET', 'it_manager:detail_professor', args =professor.id, format='json', user=it_manager_user)
+        response = make_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json', user=it_manager_user)
 
         assert response.status_code == status.HTTP_200_OK
 
 
-# class TestProfessorList:
-#     def test_if_user_is_anonymous(self):
-#         """
-#         Test if the user is anonymous.
+class TestProfessorList:
+    def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_instance_one, professor_instance_two, professor_instance_three):
+        """
+        Test if the user is anonymous.
 
-#         This function creates an instance of `APIClient` to simulate an API client.
-#         It then creates 10 instances of `ProfessorProfile` using the `baker.make` method.
-#         These professor profiles are serialized using the `ProfessorProfileSerializer`.
-#         A GET request is made to the `detail_professor` endpoint using the `client.get` method.
-#         The expected status code of the response is `401 Unauthorized`.
+        This function creates an instance of `APIClient` to simulate an API client.
+        It then creates 10 instances of `ProfessorProfile` using the `baker.make` method.
+        These professor profiles are serialized using the `ProfessorProfileSerializer`.
+        A GET request is made to the `detail_professor` endpoint using the `client.get` method.
+        The expected status code of the response is `401 Unauthorized`.
 
-#         Parameters:
-#             self (TestClass): The current instance of the test class.
+        Parameters:
+            self (TestClass): The current instance of the test class.
 
-#         Returns:
-#             None
-#         """
-#         client = APIClient()
-#         professor_profiles = baker.make(ProfessorProfile, _quantity=10)
+        Returns:
+            None
+        """
+        professor1 = professor_instance_one
+        professor2 = professor_instance_two
+        professor3 = professor_instance_three
 
-#         serializer_instance = ProfessorProfileSerializer(professor_profiles, many=True)
+        response = make_not_authenticated_request('GET', 'it_manager:list_professors', format='json')
 
-#         response = client.get(reverse('detail_professor'), format='json')
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
 
-#         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, professor_instance_two, professor_instance_three, oridionary_user):
+        """
+        Test if the user is anonymous.
 
-#     def test_if_user_is_it_manager(self):
-#         """
-#         Test if the user is an IT manager.
+        This function creates an instance of `APIClient` to simulate an API client.
+        It then creates 10 instances of `ProfessorProfile` using the `baker.make` method.
+        These professor profiles are serialized using the `ProfessorProfileSerializer`.
+        A GET request is made to the `detail_professor` endpoint using the `client.get` method.
+        The expected status code of the response is `401 Unauthorized`.
 
-#         This function creates a test client and makes a GET request to the 'detail_professor' endpoint.
-#         It then checks if the response status code is equal to 200, indicating a successful request.
+        Parameters:
+            self (TestClass): The current instance of the test class.
 
-#         Parameters:
-#         - self: The current instance of the test case.
+        Returns:
+            None
+        """
+        professor1 = professor_instance_one
+        professor2 = professor_instance_two
+        professor3 = professor_instance_three
 
-#         Return:
-#         - None
-#         """
-#         client = APIClient()
-#         professor_profiles = baker.make(ProfessorProfile, _quantity=10)
+        response = make_authenticated_request('GET', 'it_manager:list_professors', format='json', user=oridionary_user)
 
-#         serializer_instance = ProfessorProfileSerializer(professor_profiles, many=True)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
-#         response = client.get(reverse('detail_professor'), format='json')
+    def test_if_user_is_it_manager(self, make_authenticated_request, professor_instance_one, professor_instance_two, professor_instance_three, it_manager_user):
+        """
+        Test if the user is an IT manager.
 
-#         assert response.status_code == status.HTTP_200_OK, "Expected 200 OK status code"
+        This function creates a test client and makes a GET request to the 'detail_professor' endpoint.
+        It then checks if the response status code is equal to 200, indicating a successful request.
 
+        Parameters:
+        - self: The current instance of the test case.
 
-# class TestProfessorUpdate:
-#     def test_if_user_is_anonymous(self):
-#         """
-#         Test if the user is anonymous.
+        Return:
+        - None
+        """
+        professor1 = professor_instance_one
+        professor2 = professor_instance_two
+        professor3 = professor_instance_three
 
-#         This function creates a test environment by instantiating an APIClient and creating instances of User, College, Field, and ProfessorProfile using the baker library. It then creates an instance of ProfessorProfileSerializer with the created professor_profile object.
+        response = make_authenticated_request('GET', 'it_manager:list_professors', format='json', user=it_manager_user)
 
-#         The function sends a PUT request to the 'update_professor' endpoint with the professor_profile id as an argument, and the serialized data from the serializer_instance object as the request's data. The format of the request data is set to 'json'.
-
-#         The function asserts that the response's status code is equal to status.HTTP_401_UNAUTHORIZED, indicating that the user is not authorized. If the assertion fails, an AssertionError is raised with the message "Expected 401 Unauthorized status code".
-
-#         This function does not take any parameters and does not return anything.
-#         """
-#         client = APIClient()
-#         user = baker.make(User)
-#         college = baker.make(College)
-#         field = baker.make(Field, college=college)
-#         professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
-
-#         serializer_instance = ProfessorProfileSerializer(professor_profile)
-
-#         response = client.put(reverse('update_professor', args=[professor_profile.id]), data=serializer_instance.data, format='json')
-
-#         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
-
-#     def test_if_user_is_it_manager(self):
-#         """
-#         Function to test if a user is an IT manager.
-
-#         Args:
-#             self: The object itself.
-
-#         Returns:
-#             None
-#         """
-#         client = APIClient()
-#         user = baker.make(User)
-#         college = baker.make(College)
-#         field = baker.make(Field, college=college)
-#         professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
-
-#         serializer_instance = ProfessorProfileSerializer(professor_profile)
-
-#         response = client.put(reverse('update_professor', args=[professor_profile.id]), data=serializer_instance.data, format='json')
-
-#         assert response.status_code == status.HTTP_205_RESET_CONTENT, "Expected 205 Reset Content status code"
+        assert response.status_code == status.HTTP_200_OK, "Expected 200 OK status code"
 
 
-# class TestProfessorDelete:
-#     def test_if_user_is_anonymous(self):
-#         """
-#         Test if the user is anonymous.
+class TestProfessorUpdate:
+    def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_data, professor_instance_one):
+        """
+        Test if the user is anonymous.
 
-#         This function creates a test client and sets up the necessary objects for testing. It then calls the API endpoint for deleting a professor profile with the given professor profile ID. The function asserts that the response status code is 401 UNAUTHORIZED, indicating that the user is not authenticated.
+        This function creates a test environment by instantiating an APIClient and creating instances of User, College, Field, and ProfessorProfile using the baker library. It then creates an instance of ProfessorProfileSerializer with the created professor_profile object.
 
-#         Parameters:
-#             self (obj): The current instance of the test case.
+        The function sends a PUT request to the 'update_professor' endpoint with the professor_profile id as an argument, and the serialized data from the serializer_instance object as the request's data. The format of the request data is set to 'json'.
 
-#         Returns:
-#             None
-#         """
+        The function asserts that the response's status code is equal to status.HTTP_401_UNAUTHORIZED, indicating that the user is not authorized. If the assertion fails, an AssertionError is raised with the message "Expected 401 Unauthorized status code".
 
-#         client = APIClient()
-#         user = baker.make(User)
-#         college = baker.make(College)
-#         field = baker.make(Field, college=college)
-#         professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
+        This function does not take any parameters and does not return anything.
+        """
 
-#         serializer_instance = ProfessorProfileSerializer(professor_profile)
+        professor = professor_instance_one
+        updated_professor_data_professor = professor_data
 
-#         response = client.delete(reverse('delete_professor', args=[professor_profile.id]), data=serializer_instance.data, format='json')
+        response = make_not_authenticated_request('PUT', 'it_manager:update_professor', args=[professor.id], data=updated_professor_data_professor, format='json')
 
-#         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
 
-#     def test_if_user_is_it_manager(self):
-#         """
-#         Test if the user is an IT manager.
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, professor_instance_one, oridionary_user):
+        """
+        Function to test if a user is an IT manager.
 
-#         This function creates a test scenario by instantiating various objects such as `client`, `user`, `college`, `field`, and `professor_profile`. It then creates an instance of the `ProfessorProfileSerializer` using the `professor_profile` object.
+        Args:
+            self: The object itself.
 
-#         The function sends a DELETE request to the 'delete_professor' endpoint with the `professor_profile` ID as a path parameter and the serialized data as the request payload. The expected response status code is `204 No Content`.
+        Returns:
+            None
+        """
+        professor = professor_instance_one
+        updated_professor_data_professor = professor_data
 
-#         Raises:
-#             AssertionError: If the response status code is not `204 No Content`.
+        response = make_authenticated_request('PUT', 'it_manager:update_professor', args=[professor.id], data=updated_professor_data_professor, format='json', user=oridionary_user)
 
-#         Parameters:
-#             self (TestUserManager): The current instance of the test case.
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
-#         Returns:
-#             None
-#         """
-#         client = APIClient()
-#         user = baker.make(User)
-#         college = baker.make(College)
-#         field = baker.make(Field, college=college)
-#         professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
+    def test_if_user_is_it_manager(self, make_authenticated_request, professor_data, professor_instance_one, it_manager_user):
+        """
+        Function to test if a user is an IT manager.
 
-#         serializer_instance = ProfessorProfileSerializer(professor_profile)
+        Args:
+            self: The object itself.
 
-#         response = client.delete(reverse('delete_professor', args=[professor_profile.id]), data=serializer_instance.data, format='json')
+        Returns:
+            None
+        """
+        professor = professor_instance_one
+        updated_professor_data_professor = professor_data
 
-#         assert response.status_code == status.HTTP_204_NO_CONTENT, "Expected 204 No Content status code"
+        response = make_authenticated_request('PUT', 'it_manager:update_professor', args=[professor.id], data=updated_professor_data_professor, format='json', user=it_manager_user)
+        print(response.content)
+        assert response.status_code == status.HTTP_205_RESET_CONTENT, "Expected 205 Reset Content status code"
+
+
+class TestProfessorDelete:
+    def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_instance_one):
+        """
+        Test if the user is anonymous.
+
+        This function creates a test client and sets up the necessary objects for testing. It then calls the API endpoint for deleting a professor profile with the given professor profile ID. The function asserts that the response status code is 401 UNAUTHORIZED, indicating that the user is not authenticated.
+
+        Parameters:
+            self (obj): The current instance of the test case.
+
+        Returns:
+            None
+        """
+
+        professor = professor_instance_one
+
+        response = make_not_authenticated_request('DELETE', 'it_manager:delete_professor', args=[professor.id], data=professor, format='json')
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
+
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, oridionary_user):
+        """
+        Test if the user is anonymous.
+
+        This function creates a test client and sets up the necessary objects for testing. It then calls the API endpoint for deleting a professor profile with the given professor profile ID. The function asserts that the response status code is 401 UNAUTHORIZED, indicating that the user is not authenticated.
+
+        Parameters:
+            self (obj): The current instance of the test case.
+
+        Returns:
+            None
+        """
+
+        professor = professor_instance_one
+
+        response = make_authenticated_request('DELETE', 'it_manager:delete_professor', args=[professor.id], data=professor, format='json', user=oridionary_user)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+
+    def test_if_user_is_it_manager(self, make_authenticated_request, professor_instance_one, it_manager_user):
+        """
+        Test if the user is an IT manager.
+
+        This function creates a test scenario by instantiating various objects such as `client`, `user`, `college`, `field`, and `professor_profile`. It then creates an instance of the `ProfessorProfileSerializer` using the `professor_profile` object.
+
+        The function sends a DELETE request to the 'delete_professor' endpoint with the `professor_profile` ID as a path parameter and the serialized data as the request payload. The expected response status code is `204 No Content`.
+
+        Raises:
+            AssertionError: If the response status code is not `204 No Content`.
+
+        Parameters:
+            self (TestUserManager): The current instance of the test case.
+
+        Returns:
+            None
+        """
+        professor = professor_instance_one
+
+        response = make_authenticated_request('DELETE', 'it_manager:delete_professor', args=[professor.id], data=professor, format='json', user=it_manager_user)
+
+        assert response.status_code == status.HTTP_204_NO_CONTENT, "Expected 204 No Content status code"
 
 
 
