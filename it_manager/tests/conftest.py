@@ -1,10 +1,9 @@
-from attr import field
 from account.models import User, UserRoleChoices
+from professor.models import ProfessorProfile
 from it_manager.models import ItManagerProfile
 from common.models import College, Field
-from professor.models import ProfessorProfile
 import pytest
-
+import pytest
 
 @pytest.fixture
 def user_data(db):
@@ -115,8 +114,8 @@ def professor_data(user_data, college_data, field_data):
     """
     return {
         "user": user_data,
-        "college": college_data["college"],
-        "field": field_data["field"],
+        "college": college_data["college"].id,
+        "field": field_data["field"].id,
         "orientation": "Test Professor Orientation",
         "order": "Test Professor Order",
     }
