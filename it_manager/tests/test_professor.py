@@ -19,11 +19,11 @@ def make_authenticated_request(api_client):
     """
     Fixture to make HTTP requests to a specified DRF url.
     """
-    def make_http_request(method, url_name, data=None, format='json', user=None):
+    def make_http_request(method, url_name, args = None, data=None, format='json', user=None):
         if user:
             api_client.force_authenticate(user=user)
 
-        url = reverse(url_name)
+        url = reverse(url_name, args=[args])
         request_func = getattr(api_client, method.lower())
 
         if method in ('GET', 'DELETE'):
@@ -40,9 +40,9 @@ def make_not_authenticated_request(api_client):
     """
     Fixture to make HTTP requests to a specified DRF url.
     """
-    def make_http_request(method, url_name, data=None, format='json'):
+    def make_http_request(method, url_name, args = None, data=None, format='json'):
         
-        url = reverse(url_name)
+        url = reverse(url_name, args=[args])
         request_func = getattr(api_client, method.lower())
 
         if method in ('GET', 'DELETE'):
@@ -154,59 +154,67 @@ class TestProfessorCreation:
 
 
 
-# class TestProfessorRetrieve:
-#     def test_if_user_is_anonymous(self):
-#         """
-#         Test if the user is anonymous.
+class TestProfessorRetrieve:
+    def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_instance_one):
+        """
+        Test if the user is anonymous.
 
-#         This function creates a test environment by creating instances of various model classes such as User, College, Field, and ProfessorProfile. It then initializes a serializer instance with the professor_profile object.
+        This function creates a test environment by creating instances of various model classes such as User, College, Field, and ProfessorProfile. It then initializes a serializer instance with the professor_profile object.
 
-#         Finally, it sends a GET request to the 'detail_professor' endpoint with the professor_profile ID as a parameter. It asserts that the response status code is 401 (Unauthorized), indicating that the user is anonymous.
+        Finally, it sends a GET request to the 'detail_professor' endpoint with the professor_profile ID as a parameter. It asserts that the response status code is 401 (Unauthorized), indicating that the user is anonymous.
 
-#         Parameters:
-#         - self: The instance of the test case class.
+        Parameters:
+        - self: The instance of the test case class.
 
-#         Returns:
-#         - None
+        Returns:
+        - None
 
-#         Raises:
-#         - AssertionError: If the response status code is not 401 (Unauthorized).
-#         """
-#         client = APIClient()
-#         user = baker.make(User)
-#         college = baker.make(College)
-#         field = baker.make(Field, college=college)
-#         professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
+        Raises:
+        - AssertionError: If the response status code is not 401 (Unauthorized).
+        """
+        
+        professor = professor_instance_one
 
-#         serializer_instance = ProfessorProfileSerializer(professor_profile)
+        response = make_not_authenticated_request('GET', 'it_manager:detail_professor', args =professor.id, format='json')
+        
 
-#         response = client.get(reverse('detail_professor', args=[professor_profile.id]), data = serializer_instance.data, format='json')
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-#         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, oridionary_user):
+        """
+        Test if the user is an IT manager.
 
-#     def test_if_user_is_it_manager(self):
-#         """
-#         Test if the user is an IT manager.
+        This function performs a series of actions to test if the user is an IT manager. It creates a client object, a user object, a college object, a field object, and a professor profile object. Then, it creates an instance of the ProfessorProfileSerializer with the professor profile object. Finally, it makes a GET request to the 'detail_professor' endpoint, passing the professor profile ID as an argument and the 'json' format. It asserts that the response status code is equal to HTTP 200 OK.
 
-#         This function performs a series of actions to test if the user is an IT manager. It creates a client object, a user object, a college object, a field object, and a professor profile object. Then, it creates an instance of the ProfessorProfileSerializer with the professor profile object. Finally, it makes a GET request to the 'detail_professor' endpoint, passing the professor profile ID as an argument and the 'json' format. It asserts that the response status code is equal to HTTP 200 OK.
+        Parameters:
+        - self: The instance of the class.
 
-#         Parameters:
-#         - self: The instance of the class.
+        Returns:
+        - None
+        """
+        professor = professor_instance_one
 
-#         Returns:
-#         - None
-#         """
-#         client = APIClient()
-#         user = baker.make(User)
-#         college = baker.make(College)
-#         field = baker.make(Field, college=college)
-#         professor_profile = baker.make(ProfessorProfile, user=user, college=college, field=field)
+        response = make_authenticated_request('GET', 'it_manager:detail_professor', args =professor.id, format='json', user=oridionary_user)
 
-#         serializer_instance = ProfessorProfileSerializer(professor_profile)
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+    
+    def test_if_user_is_it_manager(self, make_authenticated_request, professor_instance_one, it_manager_user):
+        """
+        Test if the user is an IT manager.
 
-#         response = client.get(reverse('detail_professor', args=[professor_profile.id]), format='json')
+        This function performs a series of actions to test if the user is an IT manager. It creates a client object, a user object, a college object, a field object, and a professor profile object. Then, it creates an instance of the ProfessorProfileSerializer with the professor profile object. Finally, it makes a GET request to the 'detail_professor' endpoint, passing the professor profile ID as an argument and the 'json' format. It asserts that the response status code is equal to HTTP 200 OK.
 
-#         assert response.status_code == status.HTTP_200_OK, "Expected 200 OK status code"
+        Parameters:
+        - self: The instance of the class.
+
+        Returns:
+        - None
+        """
+        professor = professor_instance_one
+
+        response = make_authenticated_request('GET', 'it_manager:detail_professor', args =professor.id, format='json', user=it_manager_user)
+
+        assert response.status_code == status.HTTP_200_OK
 
 
 # class TestProfessorList:
