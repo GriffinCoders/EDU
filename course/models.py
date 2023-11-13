@@ -36,7 +36,7 @@ class Course(BaseModel):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     class_day = models.CharField(max_length=1, choices=CourseDayChoices.choices)
     class_start_time = models.TimeField()
-    class_duration = models.FloatField()
+    class_finish_time = models.TimeField()
     class_location = models.CharField(max_length=255, null=True, blank=True)
     exam_specs = models.CharField(max_length=255, null=True, blank=True)
     professor = models.ForeignKey(ProfessorProfile, on_delete=models.SET_NULL, null=True, blank=True)
@@ -46,3 +46,14 @@ class Course(BaseModel):
     def __str__(self):
         return self.lesson.name + " in day: " + self.class_day + " in time: " \
             + str(self.class_start_time) + " in term: " + self.term.name
+
+    def subtract_capacity(self):
+        if self.capacity > 0:
+            self.capacity -= 1
+            self.save()
+            return True
+        return False
+
+    def increase_capacity(self):
+        self.capacity += 1
+        self.save()
