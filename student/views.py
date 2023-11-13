@@ -10,12 +10,14 @@ from course_selection.serializers import CourseSelectionRequestSerializer, Cours
 from .models import StudentProfile
 from .permissions import IsStudent
 from .serializers import StudentSerializer
+from .throtteling import StudentRateThrottle
 
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ['get', 'put']
+    throttle_classes = [StudentRateThrottle]
 
     def get_queryset(self):
         return StudentProfile.objects.filter(user=self.request.user).select_related(
@@ -29,6 +31,7 @@ class StudentCourseSelectionRegistrationViewSet(mixins.CreateModelMixin,
                                                 viewsets.GenericViewSet):
     serializer_class = CourseSelectionRequestSerializer
     permission_classes = [IsAuthenticated, IsStudent]
+    throttle_classes = [StudentRateThrottle]
 
     @property
     def student_profile(self):
@@ -49,6 +52,7 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
                                     viewsets.GenericViewSet):
     serializer_class = CourseSelectionSerializer
     permission_classes = [IsAuthenticated, IsStudent]
+    throttle_classes = [StudentRateThrottle]
 
     def get_course_selection_object(self):
         return get_object_or_404(CourseSelectionRequest, pk=self.kwargs['course_selection_pk'],
