@@ -1,8 +1,10 @@
+from attr import field
 from account.models import User, UserRoleChoices
 from it_manager.models import ItManagerProfile
 from common.models import College, Field
+from professor.models import ProfessorProfile
 import pytest
-import pytest
+
 
 @pytest.fixture
 def user_data(db):
@@ -113,8 +115,74 @@ def professor_data(user_data, college_data, field_data):
     """
     return {
         "user": user_data,
-        "college": college_data["college"].id,
-        "field": field_data["field"].id,
+        "college": college_data["college"],
+        "field": field_data["field"],
         "orientation": "Test Professor Orientation",
         "order": "Test Professor Order",
     }
+
+@pytest.fixture
+def professor_instance_one(college_data, field_data):
+    user = User.objects.create(
+        first_name="test_list_first_name_user_one",
+        last_name="test_list_last_name_user_one",
+        meli_code="0055065487",
+        gender="M",
+        birth_date="2000-01-01",
+        email="alextest@gmail.com",
+        role=UserRoleChoices.Professor,
+    )
+
+    professor = ProfessorProfile.objects.create(
+        user=user,
+        college=college_data["college"],
+        field=field_data["field"],
+        orientation= "Test Professor Orientation",
+        order= "Test Professor Order",
+    )
+    
+    return professor
+
+@pytest.fixture
+def professor_instance_two(college_data, field_data):
+    user = User.objects.create(
+        first_name="test_list_first_name_user_two",
+        last_name="test_list_last_name_user_two",
+        meli_code="0055065407",
+        gender="M",
+        birth_date="2000-01-01",
+        email="alextesdt@gmail.com",
+        role=UserRoleChoices.Professor,
+    )
+
+    professor = ProfessorProfile.objects.create(
+        user=user,
+        college=college_data["college"],
+        field=field_data["field"],
+        orientation= "Test Professor Orientation",
+        order= "Test Professor Order",
+    )
+
+    return professor
+
+@pytest.fixture
+def professor_instance_three(college_data, field_data):
+    user = User.objects.create(
+        first_name="test_list_first_name_user_three",
+        last_name="test_list_last_name_user_three",
+        meli_code="0055065400",
+        gender="M",
+        birth_date="2000-01-01",
+        email="alextesdddt@gmail.com",
+        role=UserRoleChoices.Professor,
+    )
+
+    professor = ProfessorProfile.objects.create(
+        user=user,
+        college=college_data["college"],
+        field=field_data["field"],
+        orientation= "Test Professor Orientation",
+        order= "Test Professor Order",
+    )
+
+    return professor
