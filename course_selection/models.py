@@ -49,8 +49,9 @@ class CourseSelectionRequest(BaseModel):
                 # Check if requisite already not exists in course selection
                 if not self.student_courses.filter(course__lesson=requisite).exists():
                     for course_selection in self.student.course_selections.all():
-                        if not course_selection.student_courses.filter(course__lesson=requisite, passed=True).exists():
-                            return False
+                        if course_selection.student_courses.filter(course__lesson=requisite, passed=True).exists():
+                            return True
+                    return False
         return True
 
     def has_time_interference(self, new_course):

@@ -135,7 +135,7 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
 
         # Check requisites
         if not self.course_selection.check_student_course_requisites(course):
-            raise serializers.ValidationError("Course requisites not picked")
+            raise serializers.ValidationError("Course requisites not picked or passed")
 
         # Check course capacity
         if not course.capacity > 0:
