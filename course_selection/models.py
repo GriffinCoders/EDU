@@ -1,7 +1,7 @@
-from datetime import date, datetime, timedelta
+from datetime import timedelta, datetime
 
 from django.db import models
-from django.db.models import F
+from django.db.models import Q
 
 from common.models import Term, StatusChoices, BaseModel
 from course.models import Course
@@ -54,13 +54,17 @@ class CourseSelectionRequest(BaseModel):
         return True
 
     def has_time_interference(self, new_course):
+        # Add one minute to the start time and create a range of time
+        start_time = (datetime.combine(datetime.today(), new_course.class_start_time) + timedelta(minutes=1)).time()
+        new_course_time_range = (start_time, new_course.class_finish_time)
+
         # Check for time interference with other StudentCourses in the same registration
-        # TODO: Fix this
-        return self.student_courses.exclude(course=new_course).filter(
+        return StudentCourse.objects.filter(
+            Q(course__class_start_time__range=new_course_time_range) |
+            Q(course__class_finish_time__range=new_course_time_range),
+            registration=self,
             course__class_day=new_course.class_day,
-            course__class_start_time__lt=(datetime.combine(date.today(), new_course.class_start_time) + timedelta(minutes=new_course.class_duration)).time(),
-            course__class_start_time__gt=(datetime.combine(date.today(), new_course.class_start_time) - timedelta(minutes=new_course.class_duration)).time(),
-        ).exists()
+        ).exclude(course=new_course).exists()
 
 
 class StudentCourse(BaseModel):
