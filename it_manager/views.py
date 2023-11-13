@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
-
+from rest_framework import status
 from common.models import Term, College
 from common.serializers import TermSerializer, CollegeSerializer
 from professor.models import ProfessorProfile
@@ -111,6 +111,11 @@ class UpdateProfessorProfileView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, IsItManager]
     serializer_class = ProfessorSerializer
     queryset = ProfessorProfile.objects.all()
+
+    def put(self, request, *args, **kwargs):
+        response = super().put(request, *args, **kwargs)
+        response.status_code = status.HTTP_205_RESET_CONTENT
+        return response
 
 
 class DeleteProfessorProfileView(generics.DestroyAPIView):
