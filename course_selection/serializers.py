@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
 
@@ -147,6 +148,13 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        validated_data["registration"] = self.course_selection
-        validated_data["status"] = StatusChoices.Pending
-        return super().create(validated_data)
+        with transaction.atomic():
+            # Create the student course
+            validated_data["registration"] = self.course_selection
+            validated_data["status"] = StatusChoices.Pending
+            obj = super().create(validated_data)
+
+            # subtract course capacity
+            if not validated_data['course'].subtract_capacity():
+                raise serializers.ValidationError("Course doesn't have any capacity")
+        return obj

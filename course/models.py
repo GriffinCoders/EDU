@@ -46,3 +46,14 @@ class Course(BaseModel):
     def __str__(self):
         return self.lesson.name + " in day: " + self.class_day + " in time: " \
             + str(self.class_start_time) + " in term: " + self.term.name
+
+    def subtract_capacity(self):
+        if self.capacity > 0:
+            self.capacity -= 1
+            self.save()
+            return True
+        return False
+
+    def increase_capacity(self):
+        self.capacity += 1
+        self.save()

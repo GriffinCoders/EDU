@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
@@ -68,7 +69,9 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
         ).exists():
             return Response({"msg": "Can't delete course that is requisite of other course"
                                     " in this course selection"}, status=status.HTTP_400_BAD_REQUEST)
-        return super().destroy(request, *args, **kwargs)
+        with transaction.atomic():
+            student_course.course.increase_capacity()
+            return super().destroy(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         self.get_course_selection_object()
