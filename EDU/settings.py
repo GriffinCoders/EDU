@@ -169,7 +169,10 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
-    )
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'student': '15/minute',
+    }
 }
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"

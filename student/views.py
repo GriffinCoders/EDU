@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
@@ -9,12 +10,14 @@ from course_selection.serializers import CourseSelectionRequestSerializer, Cours
 from .models import StudentProfile
 from .permissions import IsStudent
 from .serializers import StudentSerializer
+from .throtteling import StudentRateThrottle
 
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ['get', 'put']
+    throttle_classes = [StudentRateThrottle]
 
     def get_queryset(self):
         return StudentProfile.objects.filter(user=self.request.user).select_related(
@@ -28,6 +31,7 @@ class StudentCourseSelectionRegistrationViewSet(mixins.CreateModelMixin,
                                                 viewsets.GenericViewSet):
     serializer_class = CourseSelectionRequestSerializer
     permission_classes = [IsAuthenticated, IsStudent]
+    throttle_classes = [StudentRateThrottle]
 
     @property
     def student_profile(self):
@@ -48,6 +52,7 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
                                     viewsets.GenericViewSet):
     serializer_class = CourseSelectionSerializer
     permission_classes = [IsAuthenticated, IsStudent]
+    throttle_classes = [StudentRateThrottle]
 
     def get_course_selection_object(self):
         return get_object_or_404(CourseSelectionRequest, pk=self.kwargs['course_selection_pk'],
@@ -68,7 +73,9 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
         ).exists():
             return Response({"msg": "Can't delete course that is requisite of other course"
                                     " in this course selection"}, status=status.HTTP_400_BAD_REQUEST)
-        return super().destroy(request, *args, **kwargs)
+        with transaction.atomic():
+            student_course.course.increase_capacity()
+            return super().destroy(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         self.get_course_selection_object()
