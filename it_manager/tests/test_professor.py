@@ -59,19 +59,19 @@ def make_not_authenticated_request(api_client):
 class TestProfessorCreation:
     def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_data):
         """
-        Test if the user is anonymous.
-
-        This function creates a test client, a college, a field, and a professor profile using the 'baker' library.
-        It then creates an instance of the 'ProfessorProfileSerializer' class with the created professor profile.
-        Next, it sends a post request to the 'create_professor' endpoint with the serialized data.
-        Finally, it asserts that the response status code is equal to 401 (Unauthorized).
+        Checks if the user is anonymous by making a not authenticated request to create a professor with the given professor data.
 
         Parameters:
-            self (TestClass): The instance of the test class.
+            make_not_authenticated_request (function): A function that makes a not authenticated request.
+            professor_data (dict): The data of the professor to be created.
 
         Returns:
             None
+
+        Raises:
+            AssertionError: If the response status code is not HTTP_401_UNAUTHORIZED.
         """
+
 
         professor = professor_data
 
@@ -82,26 +82,20 @@ class TestProfessorCreation:
 
     def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, oridionary_user):
         """
-        Test if the user is not authorized to create a professor profile.
+        Test if the user is not authorized to create a professor.
 
-        This function performs the following steps:
-        1. Creates an instance of the `APIClient` class.
-        2. Creates a `College` object using the `baker.make` function.
-        3. Creates a `Field` object using the `baker.make` function, with the `college` parameter set to the previously created `College` object.
-        4. Creates a `ProfessorProfile` object using the `baker.make` function, with the `college` parameter set to the previously created `College` object and the `field` parameter set to the previously created `Field` object.
-        5. Authenticates the client with the user associated with the `ProfessorProfile` object.
-        6. Creates an instance of the `ProfessorProfileSerializer` class, with the `professor_profile` parameter set to the previously created `ProfessorProfile` object.
-        7. Sends a `POST` request to the `create_professor` endpoint, with the request body set to the serialized data of the `ProfessorProfile` object.
-        8. Asserts that the response status code is `403 Forbidden`.
-
-        This function is used to test the behavior of the API when a user is not authorized to create a professor profile.
-
-        Parameters:
-        - self: The current instance of the class.
+        Args:
+            make_authenticated_request (function): A function to make an authenticated request.
+            professor_data (dict): The professor data to be used for the request.
+            oridionary_user (str): The user making the request.
 
         Returns:
-        This function does not return any value.
+            None
+
+        Raises:
+            AssertionError: If the response status code is not 403 Forbidden.
         """
+       
         
         professor = professor_data
 
@@ -111,18 +105,17 @@ class TestProfessorCreation:
 
     def test_correct_user_with_invalid_data(self, make_authenticated_request, professor_data, it_manager_user):
         """
-        Test case for checking if the function correctly handles the scenario where a user with invalid data is passed.
+        Test if the function correctly handles a user with invalid data.
 
-        This test case creates a test client and generates some test data using the `baker` library. It then creates a `ProfessorProfileSerializer` instance and modifies the `user` role to an invalid value.
-
-        The test client sends a POST request to the `create_professor` endpoint with the modified serializer data. The expected response status code is `400 Bad Request`.
-
-        Raises:
-            AssertionError: If the response status code is not `400 Bad Request`.
+        Args:
+            make_authenticated_request (function): A function that makes an authenticated request.
+            professor_data (dict): The data of the professor.
+            it_manager_user (User): The user object of the IT manager.
 
         Returns:
             None
         """
+        
 
         professor = professor_data
         professor['user']['gender'] = 'invalid'
@@ -135,13 +128,13 @@ class TestProfessorCreation:
 
     def test_correct_user_with_valid_data(self, make_authenticated_request, professor_data, it_manager_user):
         """
-        Test the scenario where the user is correct and the data is valid.
+        Test the functionality of creating a professor with valid data and a correct user.
         
         Args:
-            make_authenticated_request (function): A function to make an authenticated request.
-            professor_data (dict): The data for the professor.
+            make_authenticated_request (function): A function that makes an authenticated request.
+            professor_data (dict): The data of the professor to be created.
             it_manager_user (User): The user with IT manager privileges.
-            
+        
         Returns:
             None
         """
@@ -157,21 +150,16 @@ class TestProfessorCreation:
 class TestProfessorRetrieve:
     def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_instance_one):
         """
-        Test if the user is anonymous.
+        Tests whether the user is anonymous by making a not authenticated request to the detail_professor endpoint for a given professor instance. 
 
-        This function creates a test environment by creating instances of various model classes such as User, College, Field, and ProfessorProfile. It then initializes a serializer instance with the professor_profile object.
-
-        Finally, it sends a GET request to the 'detail_professor' endpoint with the professor_profile ID as a parameter. It asserts that the response status code is 401 (Unauthorized), indicating that the user is anonymous.
-
-        Parameters:
-        - self: The instance of the test case class.
+        Args:
+            make_not_authenticated_request (function): A function that makes a not authenticated request.
+            professor_instance_one (object): An instance of the professor class.
 
         Returns:
-        - None
-
-        Raises:
-        - AssertionError: If the response status code is not 401 (Unauthorized).
+            None
         """
+        
         
         professor = professor_instance_one
 
@@ -182,16 +170,17 @@ class TestProfessorRetrieve:
 
     def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, oridionary_user):
         """
-        Test if the user is an IT manager.
+        Check if the user is not authorized to perform a certain action.
 
-        This function performs a series of actions to test if the user is an IT manager. It creates a client object, a user object, a college object, a field object, and a professor profile object. Then, it creates an instance of the ProfessorProfileSerializer with the professor profile object. Finally, it makes a GET request to the 'detail_professor' endpoint, passing the professor profile ID as an argument and the 'json' format. It asserts that the response status code is equal to HTTP 200 OK.
-
-        Parameters:
-        - self: The instance of the class.
+        Args:
+            make_authenticated_request (function): The function used to make authenticated requests.
+            professor_instance_one (Professor): An instance of the Professor class.
+            oridionary_user (User): An instance of the User class representing an ordinary user.
 
         Returns:
-        - None
+            None
         """
+
         professor = professor_instance_one
 
         response = make_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json', user=oridionary_user)
@@ -200,16 +189,17 @@ class TestProfessorRetrieve:
     
     def test_if_user_is_it_manager(self, make_authenticated_request, professor_instance_one, it_manager_user):
         """
-        Test if the user is an IT manager.
+        This function tests if a user is an IT manager.
 
-        This function performs a series of actions to test if the user is an IT manager. It creates a client object, a user object, a college object, a field object, and a professor profile object. Then, it creates an instance of the ProfessorProfileSerializer with the professor profile object. Finally, it makes a GET request to the 'detail_professor' endpoint, passing the professor profile ID as an argument and the 'json' format. It asserts that the response status code is equal to HTTP 200 OK.
-
-        Parameters:
-        - self: The instance of the class.
+        Args:
+            make_authenticated_request (function): A function that makes an authenticated request.
+            professor_instance_one (Professor): An instance of the Professor class.
+            it_manager_user (User): An instance of the User class representing an IT manager.
 
         Returns:
-        - None
+            None
         """
+
         professor = professor_instance_one
 
         response = make_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json', user=it_manager_user)
@@ -222,18 +212,16 @@ class TestProfessorList:
         """
         Test if the user is anonymous.
 
-        This function creates an instance of `APIClient` to simulate an API client.
-        It then creates 10 instances of `ProfessorProfile` using the `baker.make` method.
-        These professor profiles are serialized using the `ProfessorProfileSerializer`.
-        A GET request is made to the `detail_professor` endpoint using the `client.get` method.
-        The expected status code of the response is `401 Unauthorized`.
-
         Parameters:
-            self (TestClass): The current instance of the test class.
+            make_not_authenticated_request (function): A function that makes a not authenticated request.
+            professor_instance_one (object): An instance of a professor.
+            professor_instance_two (object): An instance of a professor.
+            professor_instance_three (object): An instance of a professor.
 
         Returns:
             None
         """
+
         professor1 = professor_instance_one
         professor2 = professor_instance_two
         professor3 = professor_instance_three
@@ -244,20 +232,19 @@ class TestProfessorList:
 
     def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, professor_instance_two, professor_instance_three, oridionary_user):
         """
-        Test if the user is anonymous.
+        Check if the user is not authorized to access a specific resource.
 
-        This function creates an instance of `APIClient` to simulate an API client.
-        It then creates 10 instances of `ProfessorProfile` using the `baker.make` method.
-        These professor profiles are serialized using the `ProfessorProfileSerializer`.
-        A GET request is made to the `detail_professor` endpoint using the `client.get` method.
-        The expected status code of the response is `401 Unauthorized`.
-
-        Parameters:
-            self (TestClass): The current instance of the test class.
+        Args:
+            make_authenticated_request (function): A function that makes an authenticated request.
+            professor_instance_one (Professor): An instance of the Professor class.
+            professor_instance_two (Professor): An instance of the Professor class.
+            professor_instance_three (Professor): An instance of the Professor class.
+            oridionary_user (User): An instance of the User class representing an ordinary user.
 
         Returns:
             None
         """
+
         professor1 = professor_instance_one
         professor2 = professor_instance_two
         professor3 = professor_instance_three
@@ -291,16 +278,20 @@ class TestProfessorList:
 class TestProfessorUpdate:
     def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_data, professor_instance_one):
         """
-        Test if the user is anonymous.
+        Check if a user is anonymous by making a not authenticated request to update a professor's data.
 
-        This function creates a test environment by instantiating an APIClient and creating instances of User, College, Field, and ProfessorProfile using the baker library. It then creates an instance of ProfessorProfileSerializer with the created professor_profile object.
+        Parameters:
+            make_not_authenticated_request (function): A function that makes a not authenticated request.
+            professor_data (dict): The updated data for the professor.
+            professor_instance_one (Professor): An instance of the Professor class.
 
-        The function sends a PUT request to the 'update_professor' endpoint with the professor_profile id as an argument, and the serialized data from the serializer_instance object as the request's data. The format of the request data is set to 'json'.
+        Returns:
+            None
 
-        The function asserts that the response's status code is equal to status.HTTP_401_UNAUTHORIZED, indicating that the user is not authorized. If the assertion fails, an AssertionError is raised with the message "Expected 401 Unauthorized status code".
-
-        This function does not take any parameters and does not return anything.
+        Raises:
+            AssertionError: If the response status code is not 401 Unauthorized.
         """
+
 
         professor = professor_instance_one
         updated_professor_data_professor = professor_data
@@ -311,14 +302,18 @@ class TestProfessorUpdate:
 
     def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, professor_instance_one, oridionary_user):
         """
-        Function to test if a user is an IT manager.
-
+        Test if the user is not authorized to update a professor.
+        
         Args:
-            self: The object itself.
-
+            make_authenticated_request (function): A function used to make an authenticated request.
+            professor_data (dict): The updated data for the professor.
+            professor_instance_one (Professor): An instance of the Professor model.
+            oridionary_user (User): The user making the request.
+        
         Returns:
             None
         """
+
         professor = professor_instance_one
         updated_professor_data_professor = professor_data
 
@@ -328,14 +323,18 @@ class TestProfessorUpdate:
 
     def test_if_user_is_it_manager(self, make_authenticated_request, professor_data, professor_instance_one, it_manager_user):
         """
-        Function to test if a user is an IT manager.
+        Test if the user is an IT manager.
 
         Args:
-            self: The object itself.
+            make_authenticated_request (function): A function to make an authenticated request.
+            professor_data (dict): Data of the professor.
+            professor_instance_one (Professor): An instance of the Professor class.
+            it_manager_user (User): An instance of the User class representing an IT manager.
 
         Returns:
             None
         """
+
         professor = professor_instance_one
         updated_professor_data_professor = professor_data
 
@@ -347,13 +346,12 @@ class TestProfessorUpdate:
 class TestProfessorDelete:
     def test_if_user_is_anonymous(self, make_not_authenticated_request, professor_instance_one):
         """
-        Test if the user is anonymous.
-
-        This function creates a test client and sets up the necessary objects for testing. It then calls the API endpoint for deleting a professor profile with the given professor profile ID. The function asserts that the response status code is 401 UNAUTHORIZED, indicating that the user is not authenticated.
-
-        Parameters:
-            self (obj): The current instance of the test case.
-
+        Check if the user is anonymous by making a not authenticated request.
+        
+        Args:
+            make_not_authenticated_request: A function that makes a not authenticated request.
+            professor_instance_one: An instance of the professor class.
+        
         Returns:
             None
         """
