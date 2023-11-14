@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'course',
     'course_selection',
     # 'bakery',
+    
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
