@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'educational_assistance',
     'course',
     'course_selection',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

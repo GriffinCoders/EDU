@@ -20,6 +20,7 @@ redis = "^5.0.1"
 model-bakery = "^1.17.0"
 drf-nested-routers = "^0.93.4"
 django-debug-toolbar = "^4.2.0"
+drf-yasg = "^1.21.7"
 
 
 [tool.poetry.group.dev.dependencies]
