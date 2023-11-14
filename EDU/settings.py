@@ -56,8 +56,6 @@ INSTALLED_APPS = [
     'educational_assistance',
     'course',
     'course_selection',
-    # 'bakery',
-    
     'drf_yasg',
 ]
 
@@ -175,15 +173,17 @@ REST_FRAMEWORK = {
     }
 }
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
-#### I added this wor warning in test cases
-# STORAGES = {
-#     'default': {
-#         'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
-#     },
-# }
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 
 AWS_ACCESS_KEY_ID = os.getenv("MINIO_ROOT_USER")
