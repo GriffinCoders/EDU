@@ -15,8 +15,7 @@ variables:
 
 before_script:
   # Install Poetry
-  - curl -sSL https://install.python-poetry.org | python3 -
-  - export PATH="/root/.local/bin:$PATH"
+  - pip install poetry
 
   # Install project dependencies
   - poetry install
