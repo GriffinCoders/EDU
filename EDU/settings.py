@@ -148,10 +148,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-MEDIA_URL = "media/"
+# MEDIA_URL = "media/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_ROOT = BASE_DIR / "media-files"
+# MEDIA_ROOT = BASE_DIR / "media-files"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -189,10 +189,22 @@ STORAGES = {
 AWS_ACCESS_KEY_ID = os.getenv("MINIO_ROOT_USER")
 AWS_SECRET_ACCESS_KEY = os.getenv("MINIO_ROOT_PASSWORD")
 AWS_STORAGE_BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
 AWS_S3_FILE_OVERWRITE = False
+
+AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
+
+# TODO: fix minio in docker
+
+# AWS_S3_CUSTOM_DOMAIN = 'localhost:9000'
+# AWS_UPLOAD_S3_ENDPOINT_URL = os.getenv("UPLOAD_S3_ENDPOINT_URL", "http://localhost:9000")
+# AWS_UPLOAD_S3_CUSTOM_DOMAIN = f"{AWS_UPLOAD_S3_ENDPOINT_URL}"
+#
+# AWS_DISPLAY_S3_ENDPOINT_URL = os.getenv("DISPLAY_S3_ENDPOINT_URL", "http://minio:9000")
+# AWS_DISPLAY_S3_CUSTOM_DOMAIN = f"{AWS_UPLOAD_S3_ENDPOINT_URL}"
+# AWS_S3_ENDPOINT_URL = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_DISPLAY_S3_ENDPOINT_URL}"
+
 
 CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
 CELERY_RESULT_BACKEND = 'rpc://'
