@@ -15,7 +15,7 @@ variables:
 
 before_script:
   # Install Poetry
-  - pip install poetry
+  - python -m pip install poetry
 
   # Install project dependencies
   - poetry install
