@@ -1,4 +1,4 @@
-image: python:3.9
+image: python:3
 
 services:
   - postgres:15
@@ -15,7 +15,7 @@ variables:
 
 before_script:
   # Install Poetry
-  - python -m pip install poetry
+  - python3 -m pip install poetry
 
   # Install project dependencies
   - poetry install
