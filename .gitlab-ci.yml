@@ -1,0 +1,33 @@
+image: python:3.12
+
+services:
+  - postgres:15
+
+variables:
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  POSTGRES_DB: edu
+  DATABASE_PORT: 54328
+  DATABASE_HOST: localhost
+  POSTGRES_SSL: disable
+  POSTGRES_TIMEZONE: Asia/Tehran
+  POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
+
+before_script:
+  # Install Poetry
+  - curl -sSL https://install.python-poetry.org | python3 -
+  - export PATH="/root/.local/bin:$PATH"
+
+  # Install project dependencies
+  - poetry install
+
+  # Run migrations
+  - poetry run python manage.py migrate
+
+stages:
+  - test
+
+run-tests:
+  stage: test
+  script:
+    - poetry run pytest
