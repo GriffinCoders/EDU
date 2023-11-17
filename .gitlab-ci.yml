@@ -22,6 +22,8 @@ default:
     - apt-get -yq update
     - apt-get -yq install python3
     - curl -sSL https://install.python-poetry.org | python3 -
+    - export PATH="$HOME/.local/bin:$PATH"
+    - export PATH=$HOME/Library/Python/3.10/bin:$PATH
     - poetry install
 
 
@@ -36,6 +38,12 @@ django-tests:
   script:
     - poetry run pytest
 
+cleanup_job:
+  stage: cleanup
+  script:
+    - echo "Cleaning up"
+    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
+  when: always
 
 
 
