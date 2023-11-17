@@ -14,13 +14,13 @@ default:
   services:
     - postgres:12.2-alpine
 
-  cache:
-    paths:
-      - ~/.cache/pip/
+#  cache:
+#    paths:
+#      - ~/.cache/pip/
 
   before_script:
-    - sudo apt-get -yq update
-    - sudo apt-get -yq install python3 python3-poetry
+    - apt-get -yq update
+    - apt-get -yq install python3 python3-poetry
     - poetry install
 
 migrations:
