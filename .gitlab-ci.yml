@@ -34,12 +34,12 @@ django-tests:
   script:
     - poetry run pytest
 
-cleanup_job:
-  stage: .post
-  script:
-    - echo "Cleaning up"
-    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
-  when: always
+#cleanup_job:
+#  stage: .post
+#  script:
+#    - echo "Cleaning up"
+#    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
+#  when: always
 
 
 
