@@ -9,7 +9,7 @@ variables:
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
 
 default:
-  image: python:3.10
+  image: python:3.12
 
   services:
     - postgres:12.2-alpine
