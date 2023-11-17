@@ -19,8 +19,8 @@ default:
       - ~/.cache/pip/
 
   before_script:
-    - apt-get -yq update
-    - apt-get -yq install python3 python3-poetry
+    - sudo apt-get -yq update
+    - sudo apt-get -yq install python3 python3-poetry
     - poetry install
 
 migrations:
