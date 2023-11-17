@@ -14,8 +14,8 @@ default:
     - add-apt-repository ppa:deadsnakes/ppa -y
     - apt-get -yq update
     - apt-get -yq install python3.12 python3-pip
-    - pip install -U pip setuptools
-    - pip install --upgrade poetry
+    - python3.12 -m pip install -U pip setuptools
+    - python3.12 -m pip install --upgrade poetry
     - poetry install
 
 migrations:
