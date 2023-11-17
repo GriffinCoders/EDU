@@ -13,7 +13,7 @@ default:
     - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
     - add-apt-repository ppa:deadsnakes/ppa -y
     - apt-get -yq update
-    - apt-get -yq install python3.12 python3-pip
+    - apt-get -yq install python3.12-distutils python3-pip
     - python3.12 -m pip install -U pip setuptools
     - python3.12 -m pip install --upgrade poetry
     - poetry install
