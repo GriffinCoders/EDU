@@ -1,4 +1,4 @@
-image: python:3
+image: : ubuntu:20.04
 
 services:
   - postgres:15
@@ -13,9 +13,18 @@ variables:
   POSTGRES_TIMEZONE: Asia/Tehran
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
 
+
+cache:
+  paths:
+    - ~/.cache/pip/
+
+
 before_script:
-  - apt-get update -qy
-  - apt-get install -y python-dev python-pip
+  - apt -y update
+  - apt -y install apt-utils
+  - apt -y install net-tools python3.8 python3-pip
+  - apt -y upgrade
+
   # Install Poetry
   - python -m pip install poetry
 
