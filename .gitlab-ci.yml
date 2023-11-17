@@ -3,7 +3,7 @@ variables:
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
 
 default:
-  image: python:3.1
+  image: python:3.10.12
 
 #  cache:
 #    paths:
@@ -13,9 +13,9 @@ default:
     - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
     - add-apt-repository ppa:deadsnakes/ppa -y
     - apt-get -yq update
-    - apt-get -yq install python3.12-distutils python3-pip
-    - python3.12 -m pip install -U pip setuptools
-    - python3.12 -m pip install --upgrade poetry
+    - apt-get -yq install python3 python3-pip
+    - pip install -U pip setuptools
+    - pip install --upgrade poetry
     - poetry install
 
 migrations:
