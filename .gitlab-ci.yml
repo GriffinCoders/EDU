@@ -26,7 +26,7 @@ default:
 #
 #    - apt-get -y upgrade
     - apt-get -yq install python3.10 python-pip
-    - python -m pip install poetry
+    - python3.10 -m pip install poetry
     - poetry install
 
 
