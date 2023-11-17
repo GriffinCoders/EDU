@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 #readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10.12"
 django = "^4.2.6"
 python-dotenv = "^1.0.0"
 psycopg2-binary = "^2.9.9"
@@ -25,7 +25,7 @@ setuptools = "^68.2.2"
 gunicorn = "^21.2.0"
 
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 pytest = "^7.4.3"
 pytest-django = "^4.7.0"
 model-bakery = "^1.17.0"
