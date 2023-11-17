@@ -2,9 +2,12 @@ from django.urls import reverse
 from django.core.cache import cache
 from rest_framework.test import APITestCase
 
+import pytest
+
 from account.models import User
 
 
+@pytest.mark.django_db
 class ResetPasswordTestCase(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="reset_password2",
