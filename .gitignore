@@ -92,3 +92,4 @@ db.sqlite3
 .pytest_cache
 get-pip.py
 staticfiles
+mediafiles
