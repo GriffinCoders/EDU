@@ -13,6 +13,7 @@ from .models import User
 
 class TokenLoginView(APIView):
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []
     serializer_class = serializers.AuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
@@ -24,7 +25,8 @@ class TokenLoginView(APIView):
 
 
 class TokenLogoutView(APIView):
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         try:
             Token.objects.get(user=request.user).delete()
         except Token.DoesNotExist:
@@ -34,6 +36,7 @@ class TokenLogoutView(APIView):
 
 class ResetPasswordView(APIView):
     permission_classes = [permissions.AllowAny]
+    authentication_classes = []
     serializer_class = serializers.ResetPasswordSerializer
 
     def post(self, request, *args, **kwargs):

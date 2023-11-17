@@ -35,6 +35,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+.venv/
 build/
 develop-eggs/
 dist/
@@ -87,3 +88,8 @@ local_settings.py
 
 db.sqlite3
 .idea
+.vscode
+.pytest_cache
+get-pip.py
+staticfiles
+mediafiles

@@ -28,6 +28,7 @@ class Term(BaseModel):
     emergency_removal_finish = models.DateTimeField()
     exams_start = models.DateTimeField()
     term_finish = models.DateTimeField()
+    include_valid_years = models.BooleanField()
 
     def __str__(self):
         return self.name

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'storages',
+    'debug_toolbar',
 
     'common',
     'account',
@@ -55,9 +56,11 @@ INSTALLED_APPS = [
     'educational_assistance',
     'course',
     'course_selection',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -91,23 +94,27 @@ WSGI_APPLICATION = 'EDU.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+if bool(int(os.getenv("USE_SQLITE", 0))):
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("DATABASE_HOST"),
-        "PORT": os.getenv("DATABASE_PORT"),
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.getenv("POSTGRES_DB"),
+            "USER": os.getenv("POSTGRES_USER"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+            "HOST": os.getenv("DATABASE_HOST"),
+            "PORT": os.getenv("DATABASE_PORT"),
+        }
+    }
 
 
 # Password validation
@@ -145,10 +152,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-MEDIA_URL = "media/"
+# MEDIA_URL = "media/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_ROOT = BASE_DIR / "media-files"
+# MEDIA_ROOT = BASE_DIR / "media-files"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -159,23 +166,52 @@ AUTH_USER_MODEL = 'account.User'
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
-    )
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'student': '15/minute',
+    }
 }
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 
 AWS_ACCESS_KEY_ID = os.getenv("MINIO_ROOT_USER")
 AWS_SECRET_ACCESS_KEY = os.getenv("MINIO_ROOT_PASSWORD")
 AWS_STORAGE_BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
 AWS_S3_FILE_OVERWRITE = False
+
+AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
+
+# TODO: fix minio in docker
+
+# AWS_S3_CUSTOM_DOMAIN = 'localhost:9000'
+# AWS_UPLOAD_S3_ENDPOINT_URL = os.getenv("UPLOAD_S3_ENDPOINT_URL", "http://localhost:9000")
+# AWS_UPLOAD_S3_CUSTOM_DOMAIN = f"{AWS_UPLOAD_S3_ENDPOINT_URL}"
+#
+# AWS_DISPLAY_S3_ENDPOINT_URL = os.getenv("DISPLAY_S3_ENDPOINT_URL", "http://minio:9000")
+# AWS_DISPLAY_S3_CUSTOM_DOMAIN = f"{AWS_UPLOAD_S3_ENDPOINT_URL}"
+# AWS_S3_ENDPOINT_URL = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_DISPLAY_S3_ENDPOINT_URL}"
+
+
+CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
+CELERY_RESULT_BACKEND = 'rpc://'
 
 CACHES = {
     "default": {
@@ -183,3 +219,9 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379/1",
     }
 }
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True
+}
+
+# TODO: set email backend configs
