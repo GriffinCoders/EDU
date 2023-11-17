@@ -19,13 +19,11 @@ default:
 #      - ~/.cache/pip/
 
   before_script:
+    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
+    - add-apt-repository ppa:deadsnakes/ppa -y
     - apt-get -yq update
-    - apt-get -yq install python3
-    - python3 -m pip install --user pipx
-    - python3 -m pipx ensurepath
-    - pipx install poetry
-
-    - poetry lock
+    - apt-get -yq install python3.12 python3-poetry
+    - poetry env use 3.12
     - poetry install
 
 migrations:
@@ -39,12 +37,12 @@ django-tests:
   script:
     - poetry run pytest
 
-cleanup_job:
-  stage: .pre
-  script:
-    - echo "Cleaning up"
-    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
-  when: always
+#cleanup_job:
+#  stage: .pre
+#  script:
+#    - echo "Cleaning up"
+#    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
+#  when: always
 
 
 
