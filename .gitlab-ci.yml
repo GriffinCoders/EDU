@@ -23,7 +23,6 @@ default:
     - apt-get -yq install python3 python3-poetry
     - poetry install
 
-
 migrations:
   stage: build
   script:
@@ -36,7 +35,7 @@ django-tests:
     - poetry run pytest
 
 cleanup_job:
-  stage: cleanup
+  stage: .post
   script:
     - echo "Cleaning up"
     - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
