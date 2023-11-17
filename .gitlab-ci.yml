@@ -23,9 +23,6 @@ default:
     - add-apt-repository ppa:deadsnakes/ppa -y
     - apt-get -yq update
     - apt-get -yq install python3.12 python3-poetry
-    - rm -rf /root/.cache/pypoetry
-    - rm -f .venv/pyvenv.cfg
-    - poetry env use 3.12
     - poetry install
 
 migrations:
