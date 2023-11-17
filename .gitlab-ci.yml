@@ -1,7 +1,7 @@
 variables:
-  POSTGRES_USER: admin
-  POSTGRES_PASSWORD: admin
-  POSTGRES_DB: edu
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ""
+  POSTGRES_DB: project_ci_test
   DATABASE_PORT: 5432
   DATABASE_HOST: postgres
   POSTGRES_SSL: disable
@@ -20,6 +20,7 @@ default:
 #      - ~/.cache/pip/
 
   before_script:
+    - export DATABASE_URL=postgres://postgres:@postgres:5432/project_ci_test
     - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
     - add-apt-repository ppa:deadsnakes/ppa -y
     - apt-get -yq update
