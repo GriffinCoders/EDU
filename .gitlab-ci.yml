@@ -20,7 +20,7 @@ default:
 
   before_script:
     - apt-get -yq update
-    - apt-get -yq install python3 python3-poetry
+    - apt-get -yq install python3.12 python3-poetry
     - poetry env use 3.12
     - poetry install
 
