@@ -2,12 +2,12 @@ variables:
   POSTGRES_USER: admin
   POSTGRES_PASSWORD: admin
   POSTGRES_DB: edu
-  DATABASE_PORT: 54328
+  DATABASE_PORT: 5432
   DATABASE_HOST: localhost
   POSTGRES_SSL: disable
   POSTGRES_TIMEZONE: Asia/Tehran
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
-  PGPORT: 54328 # Change default port of postgres
+  PGPORT: 5432 # Change default port of postgres
 
 default:
   image: python:3.12
