@@ -3,7 +3,7 @@ variables:
   POSTGRES_PASSWORD: admin
   POSTGRES_DB: edu
   DATABASE_PORT: 5432
-  DATABASE_HOST: localhost
+  DATABASE_HOST: postgres
   POSTGRES_SSL: disable
   POSTGRES_TIMEZONE: Asia/Tehran
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
@@ -13,7 +13,7 @@ default:
   image: python:3.12
 
   services:
-    - postgres:12.2-alpine
+    - postgres:15.3-alpine
 
 #  cache:
 #    paths:
