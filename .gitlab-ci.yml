@@ -34,6 +34,7 @@ deploy:
   only:
     - master
   script:
-    - apk --update add docker-compose
+    - apt-get update
+    - apt-get install -y docker-compose
     - docker-compose down
     - docker-compose -f .\docker-compose-prod.yml up --build -d
