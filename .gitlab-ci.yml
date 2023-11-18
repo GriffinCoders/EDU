@@ -1,6 +1,14 @@
 variables:
   USE_SQLITE: 1
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
+  POSTGRES_DB: edu
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+
+
+services:
+  - name: postgres:latest
+    alias: postgres
 
 stages:
   - test
@@ -20,6 +28,10 @@ before_script:
 pytest:
   stage: test
   script:
+    # Wait for PostgreSQL to be ready
+    - until nc -zv postgres 5432; do echo "Waiting for PostgreSQL to start..."; sleep 2; done
+    - echo "PostgreSQL is ready!"
+
     - poetry run pytest
 
 
