@@ -1,33 +1,39 @@
 variables:
-  USE_SQLITE: 1
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
+  POSTGRES_DB: edu
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  DJANGO_DATABASE_HOST: postgres
+  CACHE_ENDPOINT: redis
+  PGPORT: 54328 # Change the default port of postgres
 
-default:
-  image: python:3.10
+services:
+  - name: postgres:latest
+    alias: postgres
+  - name: redis:7.2.2-alpine
+    alias: redis
 
-#  cache:
-#    paths:
-#      - ~/.cache/pip/
+stages:
+  - test
+  - deploy
 
-  before_script:
-    - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
-    - add-apt-repository ppa:deadsnakes/ppa -y
-    - apt-get -yq update
-    - apt-get -yq install python3 python3-pip
-    - pip install -U pip setuptools
-    - pip install --upgrade poetry
-    - poetry install
-
-migrations:
-  stage: build
-  script:
-    - poetry run python3 manage.py migrate
+before_script:
+  - pip install -U pip setuptools
+  - pip install --upgrade poetry
+  - poetry install
 
 
-django-tests:
+test:
   stage: test
   script:
+    - poetry run python manage.py migrate
     - poetry run pytest
 
 
-
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - docker-compose down
+    - docker-compose -f .\docker-compose-prod.yml up --build -d
