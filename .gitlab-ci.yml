@@ -15,6 +15,7 @@ services:
 
 stages:
   - test
+  - deploy
 
 before_script:
   - pip install -U pip setuptools
@@ -22,11 +23,17 @@ before_script:
   - poetry install
 
 
-pytest:
+test:
   stage: test
   script:
     - poetry run python manage.py migrate
     - poetry run pytest
 
 
-
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - docker-compose down
+    - docker-compose -f .\docker-compose-prod.yml up --build -d
