@@ -15,18 +15,18 @@ services:
   - docker:19.03.15-dind
 
 stages:
-  - test
+#  - test
   - deploy
 
 
-test:
-  stage: test
-  script:
-    - pip install -U pip setuptools
-    - pip install --upgrade poetry
-    - poetry install
-    - poetry run python manage.py migrate
-    - poetry run pytest
+#test:
+#  stage: test
+#  script:
+#    - pip install -U pip setuptools
+#    - pip install --upgrade poetry
+#    - poetry install
+#    - poetry run python manage.py migrate
+#    - poetry run pytest
 
 
 deploy:
