@@ -2,9 +2,12 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 
+import pytest
+
 from account.models import User
 
 
+@pytest.mark.django_db
 class LoginTestCase(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="login", password="login")
