@@ -3,6 +3,7 @@ variables:
   POSTGRES_DB: edu
   POSTGRES_USER: admin
   POSTGRES_PASSWORD: admin
+  DJANGO_DATABASE_HOST: postgres
 
 
 services:
@@ -13,12 +14,6 @@ stages:
   - test
 
 before_script:
-#  - rm -rf "%CACHE_PATH%/%CI_PIPELINE_ID%"
-#  - apt-get -yq update
-#  - apt-get -yq install python3.12 python3.12-dev python3-pip
-#  - python3.12 -m venv --without-pip venv
-#  - source venv/bin/activate
-#  - curl https://bootstrap.pypa.io/get-pip.py | python
   - pip install -U pip setuptools
   - pip install --upgrade poetry
   - poetry install
