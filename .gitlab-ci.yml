@@ -36,5 +36,5 @@ deploy:
   script:
     - apt-get update
     - apt-get install -y docker-compose
-    - docker system prune -a --volumes
+    - docker system prune -af
     - docker-compose -f .\docker-compose-prod.yml up --build -d
