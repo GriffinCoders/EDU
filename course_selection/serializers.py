@@ -31,6 +31,7 @@ class StudentCoursesSerializer(serializers.ModelSerializer):
         return obj.course.__str__()
 
 
+
 class CourseSelectionRequestSerializer(serializers.ModelSerializer):
     status = CustomChoiceField(choices=StatusChoices.choices, read_only=True)
     student_term_courses = StudentCoursesSerializer(many=True, source="student_courses", read_only=True)
@@ -85,6 +86,10 @@ class CourseSelectionRequestSerializer(serializers.ModelSerializer):
         if last_gpa and last_gpa >= 17:
             attrs['valid_unit'] = 24
 
+        # check if the course selction request is in the pending or valid state
+        if CourseSelectionRequest.status in (StatusChoices.Pending, StatusChoices.Valid):
+            raise serializers.ValidationError("You can not send a new course selection request")
+        
         return attrs
 
     def create(self, validated_data):
@@ -144,6 +149,10 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
         # Check course time interference
         if self.course_selection.has_time_interference(course):
             raise serializers.ValidationError("Course has time interference")
+        
+        # Check if the course selection request is in the (pending or valid) state -> can not change the selection
+        if self.course_selection.status in (StatusChoices.Pending, StatusChoices.Valid):
+            raise serializers.ValidationError("You can not select or change your selections")
 
         return attrs
 
