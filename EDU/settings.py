@@ -209,10 +209,12 @@ AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
 CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
 CELERY_RESULT_BACKEND = 'rpc://'
 
+_cache_endpoint = os.environ.get('CACHE_ENDPOINT', '127.0.0.1:6379')
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": f"redis://{_cache_endpoint}/1",
     }
 }
 

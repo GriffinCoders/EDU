@@ -4,7 +4,8 @@ variables:
   POSTGRES_USER: admin
   POSTGRES_PASSWORD: admin
   DJANGO_DATABASE_HOST: postgres
-
+  CACHE_ENDPOINT: redis
+  PGPORT: 54328 # Change the default port of postgres
 
 services:
   - name: postgres:latest
