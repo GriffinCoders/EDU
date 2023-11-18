@@ -56,7 +56,7 @@ services:
       context: .
     command: >
       /bin/sh -c "
-      ./wait-for-it.sh ${DATABASE_HOST}:${DATABASE_PORT} &&
+      ./wait-for-it.sh postgres:${DATABASE_PORT} &&
       poetry run python manage.py migrate &&
       poetry run python manage.py collectstatic --no-input &&
       poetry run gunicorn EDU.wsgi:application --bind 0.0.0.0:8000
@@ -65,6 +65,9 @@ services:
       - ./:/usr/src/app/
       - ./staticfiles:/usr/src/app/staticfiles
       - ./mediafiles:/usr/src/app/mediafiles
+    environment:
+      - DJANGO_DATABASE_HOST=postgres
+      - CACHE_ENDPOINT=redis
     depends_on:
       - postgres
       - redis
