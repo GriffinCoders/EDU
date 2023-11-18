@@ -66,6 +66,8 @@ class CourseSelectionRequest(BaseModel):
             registration=self,
             course__class_day=new_course.class_day,
         ).exclude(course=new_course).exists()
+    
+
 
 
 class StudentCourse(BaseModel):
