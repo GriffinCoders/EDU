@@ -1,5 +1,4 @@
 variables:
-  USE_SQLITE: 1
   POETRY_VIRTUALENVS_CREATE: "false"  # This is to ensure poetry uses the system Python
 
 stages:
