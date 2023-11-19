@@ -41,17 +41,17 @@ files = [
 
 [[package]]
 name = "boto3"
-version = "1.28.85"
+version = "1.29.3"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.7"
 files = [
-    {file = "boto3-1.28.85-py3-none-any.whl", hash = "sha256:1fb7e7ba32a6701990168eb7a08e1fb624ae48130784dfab25904ed47deabb31"},
-    {file = "boto3-1.28.85.tar.gz", hash = "sha256:96b4cb2708933cef7dbe1177df37ef0593839942978784147aade0e49511eb2b"},
+    {file = "boto3-1.29.3-py3-none-any.whl", hash = "sha256:85123ba6ccef12f8230bcd85bf730d3c4218e08e3cc4baaa0b3eae094703e77d"},
+    {file = "boto3-1.29.3.tar.gz", hash = "sha256:d038b19cbe29d488133351ee6eb36ee11a0934df8bcbc0892bbeb2c544a327a4"},
 ]
 
 [package.dependencies]
-botocore = ">=1.31.85,<1.32.0"
+botocore = ">=1.32.3,<1.33.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.7.0,<0.8.0"
 
@@ -60,13 +60,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.31.85"
+version = "1.32.3"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.7"
 files = [
-    {file = "botocore-1.31.85-py3-none-any.whl", hash = "sha256:b8f35d65f2b45af50c36fc25cc1844d6bd61d38d2148b2ef133b8f10e198555d"},
-    {file = "botocore-1.31.85.tar.gz", hash = "sha256:ce58e688222df73ec5691f934be1a2122a52c9d11d3037b586b3fff16ed6d25f"},
+    {file = "botocore-1.32.3-py3-none-any.whl", hash = "sha256:115adb7edf61ad7083fd582ac749b761fa707758bbca94d42e4e6e92940b5d38"},
+    {file = "botocore-1.32.3.tar.gz", hash = "sha256:be622915db1dbf1d6d5ed907633471f9ed8f5399dd3cf333f9dc2b955cd3e80d"},
 ]
 
 [package.dependencies]
@@ -353,13 +353,13 @@ files = [
 
 [[package]]
 name = "kombu"
-version = "5.3.3"
+version = "5.3.4"
 description = "Messaging library for Python."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "kombu-5.3.3-py3-none-any.whl", hash = "sha256:6cd5c5d5ef77538434b8f81f3e265c414269418645dbb47dbf130a8a05c3e357"},
-    {file = "kombu-5.3.3.tar.gz", hash = "sha256:1491df826cfc5178c80f3e89dd6dfba68e484ef334db81070eb5cb8094b31167"},
+    {file = "kombu-5.3.4-py3-none-any.whl", hash = "sha256:63bb093fc9bb80cfb3a0972336a5cec1fa7ac5f9ef7e8237c6bf8dda9469313e"},
+    {file = "kombu-5.3.4.tar.gz", hash = "sha256:0bb2e278644d11dea6272c17974a3dbb9688a949f3bb60aeb5b791329c44fadc"},
 ]
 
 [package.dependencies]
@@ -541,7 +541,6 @@ files = [
     {file = "psycopg2_binary-2.9.9-cp311-cp311-win32.whl", hash = "sha256:dc4926288b2a3e9fd7b50dc6a1909a13bbdadfc67d93f3374d984e56f885579d"},
     {file = "psycopg2_binary-2.9.9-cp311-cp311-win_amd64.whl", hash = "sha256:b76bedd166805480ab069612119ea636f5ab8f8771e640ae103e05a4aae3e417"},
     {file = "psycopg2_binary-2.9.9-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:8532fd6e6e2dc57bcb3bc90b079c60de896d2128c5d9d6f24a63875a95a088cf"},
-    {file = "psycopg2_binary-2.9.9-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:b0605eaed3eb239e87df0d5e3c6489daae3f7388d455d0c0b4df899519c6a38d"},
     {file = "psycopg2_binary-2.9.9-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8f8544b092a29a6ddd72f3556a9fcf249ec412e10ad28be6a0c0d948924f2212"},
     {file = "psycopg2_binary-2.9.9-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:2d423c8d8a3c82d08fe8af900ad5b613ce3632a1249fd6a223941d0735fce493"},
     {file = "psycopg2_binary-2.9.9-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:2e5afae772c00980525f6d6ecf7cbca55676296b580c0e6abb407f15f3706996"},
