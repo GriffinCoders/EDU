@@ -23,6 +23,7 @@ django-debug-toolbar = "^4.2.0"
 drf-yasg = "^1.21.7"
 setuptools = "^68.2.2"
 reportlab = "^4.0.7"
+gunicorn = "^21.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
