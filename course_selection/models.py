@@ -8,11 +8,20 @@ from course.models import Course
 from student.models import StudentProfile
 
 
+class CourseSelectionStatusChoices(models.TextChoices):
+    StudentSubmit = '0', 'StudentSubmit'
+    Deleted = '1', 'Deleted'
+    Pending = '2', 'Pending'
+    Failed = '3', 'Failed'
+    ProfessorRejected = '4', 'Professor Rejected'
+    ProfessorValid = '5', 'Professor Valid'
+
+
 class CourseSelectionRequest(BaseModel):
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name="course_selections")
     term = models.ForeignKey(Term, on_delete=models.CASCADE)
     valid_unit = models.PositiveSmallIntegerField()
-    status = models.CharField(max_length=1, choices=StatusChoices.choices)
+    status = models.CharField(max_length=1, choices=CourseSelectionStatusChoices.choices)
 
     class Meta:
         unique_together = ('student', 'term')

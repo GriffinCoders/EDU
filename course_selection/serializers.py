@@ -4,15 +4,23 @@ from django.utils import timezone
 
 from rest_framework import serializers
 
-from common.models import StatusChoices, Term
+from common.models import Term
 from common.serializers import CustomChoiceField
 from course.models import Course
-from course_selection.models import CourseSelectionRequest, StudentCourse
+from course_selection.models import CourseSelectionRequest, StudentCourse, CourseSelectionStatusChoices
 from student.models import StudentProfile
 
 
+def check_term_course_selection_time(term: Term):
+    now = timezone.now()
+    if term.selection_start > now:
+        raise serializers.ValidationError("The Course Selection time not started")
+    if term.selection_finish < now:
+        raise serializers.ValidationError("The Course Selection time has passed")
+
+
 class StudentCoursesSerializer(serializers.ModelSerializer):
-    status = CustomChoiceField(choices=StatusChoices.choices, read_only=True)
+    status = CustomChoiceField(choices=CourseSelectionStatusChoices.choices, read_only=True)
     course_detail = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -32,7 +40,7 @@ class StudentCoursesSerializer(serializers.ModelSerializer):
 
 
 class CourseSelectionRequestSerializer(serializers.ModelSerializer):
-    status = CustomChoiceField(choices=StatusChoices.choices, read_only=True)
+    status = CustomChoiceField(choices=CourseSelectionStatusChoices.choices, read_only=True)
     student_term_courses = StudentCoursesSerializer(many=True, source="student_courses", read_only=True)
     courses_path = serializers.SerializerMethodField(read_only=True)
     term_name = serializers.SerializerMethodField(read_only=True)
@@ -69,11 +77,7 @@ class CourseSelectionRequestSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("The Course Selection for this term already exists")
 
         # Check the selection time
-        now = timezone.now()
-        if term.selection_start > now:
-            raise serializers.ValidationError("The Course Selection not started")
-        if term.selection_finish < now:
-            raise serializers.ValidationError("The Course Selection time has passed")
+        check_term_course_selection_time(term)
 
         # Check the valid years
         if not CourseSelectionRequest.check_student_valid_years(student):
@@ -84,12 +88,12 @@ class CourseSelectionRequestSerializer(serializers.ModelSerializer):
         last_gpa = CourseSelectionRequest.get_student_last_gpa(student)
         if last_gpa and last_gpa >= 17:
             attrs['valid_unit'] = 24
-
+        
         return attrs
 
     def create(self, validated_data):
         validated_data["student"] = self.context['student_obj']
-        validated_data["status"] = StatusChoices.Pending
+        validated_data["status"] = CourseSelectionStatusChoices.Pending
         return super().create(validated_data)
 
 
@@ -110,16 +114,15 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         self.course_selection = CourseSelectionRequest.objects.get(pk=self.context['course_selection_pk'])
+        course: Course = attrs.get("course")
 
         # Check the selection time
-        now = timezone.now()
-        term: Term = self.course_selection.term
-        if term.selection_start > now:
-            raise serializers.ValidationError("The Course Selection time not started")
-        if term.selection_finish < now:
-            raise serializers.ValidationError("The Course Selection time has passed")
+        check_term_course_selection_time(self.course_selection.term)
 
-        course: Course = attrs.get("course")
+        # check if the course selection status
+        if CourseSelectionRequest.status not in (CourseSelectionStatusChoices.Pending,
+                                                 CourseSelectionStatusChoices.ProfessorRejected):
+            raise serializers.ValidationError("The course selection status is not pending or rejected")
 
         # Check the duplication course
         if StudentCourse.objects.filter(registration=self.course_selection, course=course):
@@ -151,7 +154,7 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
         with transaction.atomic():
             # Create the student course
             validated_data["registration"] = self.course_selection
-            validated_data["status"] = StatusChoices.Pending
+            validated_data["status"] = CourseSelectionStatusChoices.Pending
             obj = super().create(validated_data)
 
             # subtract course capacity

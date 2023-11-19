@@ -1,29 +1,27 @@
-# from celery import Celery
 from celery import shared_task
+from django.core.mail import send_mail
+import time
+from django.core.mail import EmailMessage
 
+@shared_task(serializer='json', name="send_email_class_schedule")
+def send_email_class_schedule(subject, message, sender, receiver, attachment=None):
+    time.sleep(20)  
+    email = EmailMessage(subject, message, sender, [receiver])
+    
+    if attachment:
+        content, filename, content_type = attachment
+        email.attach(filename, content, content_type)
 
-@shared_task
-def add(x, y):
-    return x + y
+    email.send()
 
-# """Test Celery With a Custom add Function"""
-#
-# # Create your tests here.
-# from concurrent.futures import ThreadPoolExecutor, as_completed
-# from professor.tasks import add
-#
-# # Number of tasks to run concurrently
-# num_tasks = 5
-#
-# # Arguments to pass to each task
-# task_arguments = [(i, i) for i in range(num_tasks)]
-#
-# # Create a ThreadPoolExecutor
-# with ThreadPoolExecutor(max_workers=num_tasks) as executor:
-#     # Submit each task to the executor
-#     futures = [executor.submit(add.delay, *args) for args in task_arguments]
-#
-#     # Wait for all tasks to complete
-#     for future in as_completed(futures):
-#         result = future.result()
-#         print(f"Result: {result}")
+@shared_task(serializer='json', name="send_email_exam_schedule")
+def send_email_exam_schedule(subject, message, sender, receiver, attachment=None):
+    time.sleep(20)  
+    email = EmailMessage(subject, message, sender, [receiver])
+    
+    if attachment:
+        content, filename, content_type = attachment
+        email.attach(filename, content, content_type)
+
+    email.send()
+

@@ -13,6 +13,10 @@ from professor.serializers import ProfessorSerializer
 from .permissions import IsItManager
 
 
+from student.serializers import StudentSerializer
+from student.models import StudentProfile
+
+
 class ItMangerAssistantApiView(generics.ListCreateAPIView):
     queryset = EducationalAssistanceProfile.objects.all()
     permission_classes = [IsAuthenticated, IsItManager]
@@ -121,3 +125,72 @@ class UpdateProfessorProfileView(generics.UpdateAPIView):
 class DeleteProfessorProfileView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsItManager]
     queryset = ProfessorProfile.objects.all()
+
+
+
+
+class ListStudentProfile(ListModelMixin, generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
+    serializer_class = StudentSerializer
+    pagination_class = PageNumberPagination
+    page_size = 10
+
+    def get_queryset(self):
+
+        queryset = StudentProfile.objects.all()
+
+        name = self.request.query_params.get('first_name')
+        last_name = self.request.query_params.get('last_name')
+        student_id = self.request.query_params.get('student_id')
+        meli_code = self.request.query_params.get('meli_code')
+        college_name = self.request.query_params.get('college_name')
+        field_name = self.request.query_params.get('field_name')
+        order = self.request.query_params.get('order')
+
+        if name:
+            queryset = queryset.filter(user__first_name__icontains=name)
+        if last_name:
+            queryset = queryset.filter(user__last_name__icontains=last_name)
+        if student_id:
+            queryset = queryset.filter(professor_id=student_id)
+        if meli_code:
+            queryset = queryset.filter(national_id=meli_code)
+        if college_name:
+            queryset = queryset.filter(college__name__icontains=college_name)
+        if field_name:
+            queryset = queryset.filter(field__name__icontains=field_name)
+
+
+        return queryset
+    
+    def get(self, request, *args, **kwargs):
+
+        return self.list(request, *args, **kwargs)
+    
+
+class CreateStudentProfileView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
+    serializer_class = StudentSerializer
+    queryset = StudentProfile.objects.all()
+
+
+class RetrieveStudentProfileView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
+    serializer_class = StudentSerializer
+    queryset = StudentProfile.objects.all()
+
+
+class UpdateStudentProfileView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
+    serializer_class = StudentSerializer
+    queryset = StudentProfile.objects.all()
+
+    def put(self, request, *args, **kwargs):
+        response = super().put(request, *args, **kwargs)
+        response.status_code = status.HTTP_205_RESET_CONTENT
+        return response
+
+
+class DeleteStudentProfileView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated, IsItManager]
+    queryset = StudentProfile.objects.all()

@@ -1,12 +1,15 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import mixins
 from rest_framework.response import Response
 
-from course_selection.models import CourseSelectionRequest, StudentCourse
-from course_selection.serializers import CourseSelectionRequestSerializer, CourseSelectionSerializer
+from common.models import StatusChoices
+from course_selection.models import CourseSelectionRequest, StudentCourse, CourseSelectionStatusChoices
+from course_selection.serializers import CourseSelectionRequestSerializer, CourseSelectionSerializer, \
+    check_term_course_selection_time
 from .models import StudentProfile
 from .permissions import IsStudent
 from .serializers import StudentSerializer
@@ -80,3 +83,22 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
     def create(self, request, *args, **kwargs):
         self.get_course_selection_object()
         return super().create(request, *args, **kwargs)
+
+    @action(detail=False)
+    def submit_courses(self, request, *args, **kwargs):
+        course_selection = self.get_course_selection_object()
+
+        # Check status of course selection
+        if not course_selection.status == StatusChoices.Pending:
+            return Response({"msg": "Course selection not in pending"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check the selection time
+        try:
+            check_term_course_selection_time(course_selection.term)
+        except serializers.ValidationError as e:
+            return Response({"msg": str(e.detail[0])}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Change the course selection pending
+        course_selection.status = CourseSelectionStatusChoices.StudentSubmit
+        course_selection.save()
+        return Response({"msg": "Course selection submitted"}, status=status.HTTP_200_OK)
