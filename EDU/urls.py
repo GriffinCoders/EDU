@@ -41,6 +41,7 @@ urlpatterns = [
     path('professor/', include('professor.urls')),
     path('assistance/', include('educational_assistance.urls')),
     path('it-manager/', include('it_manager.urls')),
+    path('course/', include('course.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

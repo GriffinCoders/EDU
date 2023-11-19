@@ -107,7 +107,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB"),
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("DATABASE_HOST"),
+        "HOST": os.getenv("DJANGO_DATABASE_HOST", "localhost"),
         "PORT": os.getenv("DATABASE_PORT"),
     }
 }
@@ -148,10 +148,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-MEDIA_URL = "media/"
+# MEDIA_URL = "media/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_ROOT = BASE_DIR / "media-files"
+# MEDIA_ROOT = BASE_DIR / "media-files"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -162,8 +162,8 @@ AUTH_USER_MODEL = 'account.User'
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
@@ -189,29 +189,32 @@ STORAGES = {
 AWS_ACCESS_KEY_ID = os.getenv("MINIO_ROOT_USER")
 AWS_SECRET_ACCESS_KEY = os.getenv("MINIO_ROOT_PASSWORD")
 AWS_STORAGE_BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = True
 AWS_S3_FILE_OVERWRITE = False
 
+AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
+
+# TODO: fix minio in docker
+
+# AWS_S3_CUSTOM_DOMAIN = 'localhost:9000'
+# AWS_UPLOAD_S3_ENDPOINT_URL = os.getenv("UPLOAD_S3_ENDPOINT_URL", "http://localhost:9000")
+# AWS_UPLOAD_S3_CUSTOM_DOMAIN = f"{AWS_UPLOAD_S3_ENDPOINT_URL}"
+#
+# AWS_DISPLAY_S3_ENDPOINT_URL = os.getenv("DISPLAY_S3_ENDPOINT_URL", "http://minio:9000")
+# AWS_DISPLAY_S3_CUSTOM_DOMAIN = f"{AWS_UPLOAD_S3_ENDPOINT_URL}"
+# AWS_S3_ENDPOINT_URL = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_DISPLAY_S3_ENDPOINT_URL}"
+
+
 CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
 CELERY_RESULT_BACKEND = 'rpc://'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "yeganegholiour@gmail.com"
-EMAIL_HOST_PASSWORD = "alexstylinson2002"
+_cache_endpoint = os.environ.get('CACHE_ENDPOINT', '127.0.0.1:6379')
 
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": f"redis://{_cache_endpoint}/1",
     }
 }
 

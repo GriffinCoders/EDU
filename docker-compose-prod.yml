@@ -14,39 +14,67 @@ services:
       - postgres-network
 
   redis:
-    image: redis:6.2-alpine
+    image: redis:7.2.2-alpine
     hostname: redis
     container_name: redis
     restart: always
     networks:
       - redis-network
 
+  minio:
+    image: minio/minio
+    hostname: "minio"
+    volumes:
+      - minio:/minio_files
+    env_file:
+      - ".env"
+    command: 'minio server /minio_files --console-address ":9001"'
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+#    expose:
+#      - "9000"
+    restart: on-failure
+    networks:
+      - poxy-network
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    env_file:
+      - ".env"
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc mb --quiet myminio/photos;
+      /usr/bin/mc anonymous set none myminio/photos;
+      "
+
   backend:
     build:
       context: .
     command: >
       /bin/sh -c "
-      ./wait-for-it.sh ${DATABASE_HOST}:${DATABASE_PORT} &&
-      python manage.py migrate &&
-      python manage.py collectstatic --no-input &&
-      gunicorn EDU.wsgi:application --bind 0.0.0.0:8000
+      ./wait-for-it.sh postgres:${DATABASE_PORT} &&
+      poetry run python manage.py migrate &&
+      poetry run python manage.py collectstatic --no-input &&
+      poetry run gunicorn EDU.wsgi:application --bind 0.0.0.0:8000
       "
     volumes:
       - ./:/usr/src/app/
       - ./staticfiles:/usr/src/app/staticfiles
       - ./mediafiles:/usr/src/app/mediafiles
+    environment:
+      - DJANGO_DATABASE_HOST=postgres
+      - CACHE_ENDPOINT=redis
     depends_on:
       - postgres
       - redis
-    ports:
-      - "8000:8000"
-    expose:
-      - 8000
     networks:
       - poxy-network
       - postgres-network
       - redis-network
-      - smtp-network
 
   proxy:
     image: nginx
@@ -59,38 +87,40 @@ services:
         read_only: true
     ports:
       - '80:80'
+#      - '9003:9003'
     depends_on:
       - backend
     networks:
       - poxy-network
   
-  celery:
-    build: .
-    command: celery -A EDU worker --loglevel=info
-    depends_on:
-      - redis
-      - backend
-    volumes:
-      - .:/usr/src/app/
-    networks:
-      - redis-network 
-  
-  flower:
-    build: .
-    command: celery -A EDU flower
-    depends_on:
-      - redis
-      - celery
-    networks:
-      - redis-network
-    ports:
-      - '5555:5555'
-    volumes:
-      - .:/usr/src/app/ 
+#  celery:
+#    build: .
+#    command: celery -A EDU worker --loglevel=info
+#    depends_on:
+#      - redis
+#      - backend
+#    volumes:
+#      - .:/usr/src/app/
+#    networks:
+#      - redis-network
+#
+#  flower:
+#    build: .
+#    command: celery -A EDU flower
+#    depends_on:
+#      - redis
+#      - celery
+#    networks:
+#      - redis-network
+#    ports:
+#      - '5555:5555'
+#    volumes:
+#      - .:/usr/src/app/
 
 
 volumes:
   postgres:
+  minio:
 
 networks:
   poxy-network:
