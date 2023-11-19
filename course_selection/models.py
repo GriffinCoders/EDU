@@ -14,7 +14,7 @@ class CourseSelectionStatusChoices(models.TextChoices):
     Pending = '2', 'Pending'
     Failed = '3', 'Failed'
     ProfessorRejected = '4', 'Professor Rejected'
-    ProfessorValid = '4', 'Professor Valid'
+    ProfessorValid = '5', 'Professor Valid'
 
 
 class CourseSelectionRequest(BaseModel):
