@@ -1,6 +1,7 @@
 from datetime import timedelta, datetime
 
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from common.models import Term, StatusChoices, BaseModel
@@ -9,12 +10,12 @@ from student.models import StudentProfile
 
 
 class CourseSelectionStatusChoices(models.TextChoices):
-    STUDENT_SUBMIT = '0', _('Student Submit')
-    DELETED = '1', _('Deleted')
-    PENDING = '2', _('Pending')
-    FAILED = '3', _('Failed')
-    PROFESSOR_REJECTED = '4', _('Professor Rejected')
-    PROFESSOR_VALID = '5', _('Professor Valid')
+    StudentSubmit = '0', _('Student Submit')
+    Deleted = '1', _('Deleted')
+    Pending = '2', _('Pending')
+    Failed = '3', _('Failed')
+    ProfessorRejected = '4', _('Professor Rejected')
+    ProfessorValid = '5', _('Professor Valid')
 
 
 class CourseSelectionRequest(BaseModel):

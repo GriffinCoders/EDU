@@ -4,15 +4,18 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext as _
 from common.models import College, Field, Term, BaseModel
 
+
 class GenderChoices(models.TextChoices):
-    MALE = '0', _('Male')
-    FEMALE = '1', _('Female')
+    Male = '0', _('Male')
+    Female = '1', _('Female')
+
 
 class UserRoleChoices(models.TextChoices):
-    STUDENT = '0', _('Student')
-    PROFESSOR = '1', _('Professor')
-    IT_MANAGER = '2', _('IT Manager')
-    EDUCATIONAL_ASSISTANCE = '3', _('Educational Assistance')
+    Student = '0', _('Student')
+    Professor = '1', _('Professor')
+    ItManager = '2', _('IT Manager')
+    EducationalAssistance = '3', _('Educational Assistance')
+
 
 class User(AbstractUser, BaseModel):
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profiles')

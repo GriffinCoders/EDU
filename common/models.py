@@ -1,12 +1,14 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
 class StatusChoices(models.TextChoices):
-    VALID = '0', _('Valid')
-    DELETED = '1', _('Deleted')
-    PENDING = '2', _('Pending')
-    FAILED = '3', _('Failed')
-    REJECTED = '4', _('Rejected')
+    Valid = '0', _('Valid')
+    Deleted = '1', _('Deleted')
+    Pending = '2', _('Pending')
+    Failed = '3', _('Failed')
+    Rejected = '4', _('Rejected')
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -14,6 +16,7 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Term(BaseModel):
     name = models.CharField(_('Name'), max_length=128)
@@ -31,11 +34,13 @@ class Term(BaseModel):
     def __str__(self):
         return self.name
 
+
 class College(BaseModel):
     name = models.CharField(_('Name'), max_length=128)
 
     def __str__(self):
         return self.name
+
 
 class Field(BaseModel):
     name = models.CharField(_('Name'), max_length=128)

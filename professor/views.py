@@ -5,15 +5,19 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
+
+from course_selection.serializers import StudentCoursesSerializer, CourseSelectionRequestSerializer
+from student.models import StudentProfile
 from .permissions import IsProfessor
-from common.models import StatusChoices, Term
-from course_selection.models import StudentCourse, CourseSelectionRequest
+from common.models import Term
+from course_selection.models import StudentCourse, CourseSelectionRequest, CourseSelectionStatusChoices
 from professor.models import ProfessorProfile
 from professor.serializers import ProfessorSerializer, AcceptOrRejectStudentFormSerializer
 from django.shortcuts import get_object_or_404
 
 from .tasks import send_email_class_schedule, send_email_exam_schedule
 from .pdf_generator import class_schedule, exam_schedule
+
 
 class ProfessorViewSet(viewsets.ModelViewSet):
     serializer_class = ProfessorSerializer
@@ -24,6 +28,7 @@ class ProfessorViewSet(viewsets.ModelViewSet):
         return ProfessorProfile.objects.filter(user=self.request.user).select_related(
             'user', 'college', 'field',
         )
+
 
 def get_current_term():
     current_datetime = timezone.now()
@@ -36,8 +41,10 @@ def get_current_term():
     except Term.DoesNotExist:
         return None
 
+
 def check_if_the_right_professor(professor, student):
     return professor == student.supervisor.user
+
 
 class RetrieveStudentSelectionForm(RetrieveAPIView):
     serializer_class = StudentCoursesSerializer
@@ -54,7 +61,7 @@ class RetrieveStudentSelectionForm(RetrieveAPIView):
 
             if course_selection_request and course_selection_request.student.supervisor.user == self.request.user:
                 courses = StudentCourse.objects.filter(
-                    registration=course_selection_request, status=StatusChoices.Pending
+                    registration=course_selection_request, status=CourseSelectionStatusChoices.Pending
                 )
                 return courses
 
@@ -74,6 +81,7 @@ class RetrieveStudentSelectionForm(RetrieveAPIView):
 
         return super().get(request, *args, **kwargs)
 
+
 class ListStudentsSelectionForms(ListAPIView):
     serializer_class = CourseSelectionRequestSerializer
     permission_classes = [IsAuthenticated, IsProfessor]
@@ -89,6 +97,7 @@ class ListStudentsSelectionForms(ListAPIView):
             return course_selection_request
 
         return CourseSelectionRequest.objects.none()
+
 
 class AcceptOrRejectStudentForm(ListCreateAPIView):
     serializer_class = AcceptOrRejectStudentFormSerializer
@@ -109,9 +118,10 @@ class AcceptOrRejectStudentForm(ListCreateAPIView):
                 CourseSelectionRequest, student=student_id, term=current_term
             )
 
-            if course_selection_request.status in (StatusChoices.Pending, StatusChoices.Rejected):
+            if course_selection_request.status in (CourseSelectionStatusChoices.Pending,
+                                                   CourseSelectionStatusChoices.ProfessorRejected):
                 return StudentCourse.objects.filter(
-                    registration=course_selection_request, status=StatusChoices.Pending
+                    registration=course_selection_request, status=CourseSelectionStatusChoices.Pending
                 )
 
         return StudentCourse.objects.none()
@@ -128,17 +138,18 @@ class AcceptOrRejectStudentForm(ListCreateAPIView):
                 CourseSelectionRequest, student=student_id, term=current_term
             )
 
-            if course_selection_request.status in (StatusChoices.Pending, StatusChoices.Rejected):
+            if course_selection_request.status in (CourseSelectionStatusChoices.Pending,
+                                                   CourseSelectionStatusChoices.ProfessorRejected):
                 is_accepted = serializer.validated_data["is_accepted"]
 
                 if is_accepted:
-                    course_selection_request.status = StatusChoices.Valid
+                    course_selection_request.status = CourseSelectionStatusChoices.ProfessorValid
                     course_selection_request.save()
 
                     student_courses = self.get_queryset()
 
                     for course in student_courses:
-                        course.status = StatusChoices.Valid
+                        course.status = CourseSelectionStatusChoices.ProfessorValid
                         course.save()
 
                     class_schedule_pdf = class_schedule(get_object_or_404(StudentProfile, id=student_id))
@@ -148,7 +159,7 @@ class AcceptOrRejectStudentForm(ListCreateAPIView):
                     send_email_class_schedule.delay(
                         _("Class Schedule"),
                         _("Your class schedule is attached."),
-                        "edu.project.bootcamp@gmail.com",  
+                        "edu.project.bootcamp@gmail.com",
                         student_email,
                         attachment=("Class_Schedule.pdf", class_schedule_pdf, "application/pdf"),
                     )
@@ -156,7 +167,7 @@ class AcceptOrRejectStudentForm(ListCreateAPIView):
                     send_email_exam_schedule.delay(
                         _("Exam Schedule"),
                         _("Your exam schedule is attached."),
-                        "edu.project.bootcamp@gmail.com",  
+                        "edu.project.bootcamp@gmail.com",
                         student_email,
                         attachment=("Exam_Schedule.pdf", exam_schedule_pdf, "application/pdf"),
                     )
@@ -166,7 +177,7 @@ class AcceptOrRejectStudentForm(ListCreateAPIView):
                         status=status.HTTP_200_OK,
                     )
                 else:
-                    course_selection_request.status = StatusChoices.Rejected
+                    course_selection_request.status = CourseSelectionStatusChoices.ProfessorRejected
                     course_selection_request.save()
                     return Response(
                         {"detail": _("Course Selection Was Rejected")},

@@ -12,11 +12,9 @@ services:
     alias: postgres
   - name: redis:7.2.2-alpine
     alias: redis
-#  - docker:19.03.15-dind
 
 stages:
   - test
-#  - deploy
 
 
 test:
@@ -27,13 +25,3 @@ test:
     - poetry install
     - poetry run python manage.py migrate
     - poetry run pytest
-
-
-#deploy:
-#  stage: deploy
-#  only:
-#    - master
-#  script:
-#    - apt-get update
-#    - apt-get install -y docker-compose
-#    - docker-compose -f .\docker-compose-prod.yml up --build -d

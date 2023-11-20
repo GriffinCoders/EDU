@@ -1,4 +1,9 @@
+from io import BytesIO
+
+from reportlab.pdfgen import canvas
+
 from course_selection.models import StudentCourse
+
 
 def class_schedule(student):
     buffer = BytesIO()
@@ -9,7 +14,7 @@ def class_schedule(student):
 
     for student_course in student_courses:
         course_name = student_course.course.lesson.name
-        course_day = student_course.course.get_class_day_display()  
+        course_day = student_course.course.get_class_day_display()
         class_start_time = student_course.course.class_start_time.strftime("%H:%M")
         class_end_time = student_course.course.class_finish_time.strftime("%H:%M")
         course_college = student_course.course.lesson.college.name
@@ -32,7 +37,6 @@ def class_schedule(student):
     buffer.seek(0)
 
     return buffer.getvalue()
-
 
 
 def exam_schedule(student):
@@ -64,4 +68,3 @@ def exam_schedule(student):
     buffer.seek(0)
 
     return buffer.getvalue()
-

@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from common.models import College, Term, BaseModel
 from professor.models import ProfessorProfile
 
+
 class CourseDayChoices(models.TextChoices):
     SATURDAY = '0', _('Saturday')
     SUNDAY = '1', _('Sunday')
@@ -13,10 +14,12 @@ class CourseDayChoices(models.TextChoices):
     THURSDAY = '5', _('Thursday')
     FRIDAY = '6', _('Friday')
 
+
 class LessonTypeChoices(models.TextChoices):
     GENERAL = '0', _('General')
     SPECIALIZED = '1', _('Specialized')
     BASIC = '2', _('Basic')
+
 
 class Lesson(BaseModel):
     name = models.CharField(_('Name'), max_length=128)
@@ -28,6 +31,7 @@ class Lesson(BaseModel):
 
     def __str__(self):
         return self.name
+
 
 class Course(BaseModel):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)

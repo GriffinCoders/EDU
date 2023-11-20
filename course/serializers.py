@@ -6,6 +6,7 @@ from common.models import Term
 from course.models import Course
 from .models import Lesson
 
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
@@ -38,6 +39,7 @@ class LessonSerializer(serializers.ModelSerializer):
         if college and not validated_data.get('college') == college:
             raise serializers.ValidationError(_("Can't update lesson for other colleges"))
         return super().update(instance, validated_data)
+
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
