@@ -1,0 +1,413 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-20 16:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: EDU/settings.py:143
+msgid "English"
+msgstr "انگلیسی"
+
+#: EDU/settings.py:144
+msgid "Farsi"
+msgstr "فارسی"
+
+#: account/admin.py:11
+msgid "Personal info"
+msgstr "اطلاعات شخصی"
+
+#: account/admin.py:13
+msgid "Permissions"
+msgstr "سطوح دسترسی"
+
+#: account/admin.py:24
+msgid "Important dates"
+msgstr "تاریخ‌های مهم"
+
+#: account/models.py:8
+msgid "Male"
+msgstr "مرد"
+
+#: account/models.py:9
+msgid "Female"
+msgstr "زن"
+
+#: account/models.py:12
+msgid "Student"
+msgstr "دانشجو"
+
+#: account/models.py:13 course/serializers.py:64
+msgid "Professor"
+msgstr "استاد"
+
+#: account/models.py:14
+msgid "IT Manager"
+msgstr "مدیر IT"
+
+#: account/models.py:15
+msgid "Educational Assistance"
+msgstr "کمک آموزشی"
+
+#: account/serializers.py:9
+msgid "Username"
+msgstr "نام کاربری"
+
+#: account/serializers.py:24
+msgid "Unable to log in with provided credentials."
+msgstr "قادر به ورود با اطلاعات ارائه شده نیست."
+
+#: account/serializers.py:27
+msgid "Must include \"username\" and \"password\"."
+msgstr "باید شامل \"نام کاربری\" و \"رمز عبور\" باشد."
+
+#: account/views.py:46
+msgid "User not found!"
+msgstr "کاربر یافت نشد!"
+
+#: account/views.py:60
+msgid "Otp sent"
+msgstr "Otp ارسال شد"
+
+#: account/views.py:62
+msgid "Otp already sent"
+msgstr "Otp از قبل ارسال شده است"
+
+#: account/views.py:65
+msgid "Must include otp and new password"
+msgstr "باید شامل otp و رمز عبور جدید باشد"
+
+#: account/views.py:69
+msgid "Invalid otp"
+msgstr "otp نامعتبر"
+
+#: account/views.py:74
+msgid "New password saved"
+msgstr "رمز عبور جدید ذخیره شد"
+
+#: common/models.py:5
+msgid "Valid"
+msgstr "معتبر"
+
+#: common/models.py:6 course_selection/models.py:13
+msgid "Deleted"
+msgstr "حذف شده"
+
+#: common/models.py:7 course_selection/models.py:14
+msgid "Pending"
+msgstr "در انتظار"
+
+#: common/models.py:8 course_selection/models.py:15
+msgid "Failed"
+msgstr "ناموفق"
+
+#: common/models.py:9
+msgid "Rejected"
+msgstr "رد شده"
+
+#: common/models.py:12 common/serializers.py:55 common/serializers.py:71
+#: common/serializers.py:95
+msgid "Created at"
+msgstr "ایجاد شده در"
+
+#: common/models.py:13 common/serializers.py:56 common/serializers.py:72
+#: common/serializers.py:96
+msgid "Updated at"
+msgstr "به‌روز شده در"
+
+#: common/models.py:19 common/models.py:35 common/models.py:41
+#: common/serializers.py:44 common/serializers.py:70 common/serializers.py:90
+#: course/models.py:22 course/serializers.py:22
+msgid "Name"
+msgstr "نام"
+
+#: common/models.py:20 common/serializers.py:45
+msgid "Selection Start"
+msgstr "شروع انتخاب"
+
+#: common/models.py:21 common/serializers.py:46
+msgid "Selection Finish"
+msgstr "پایان انتخاب"
+
+#: common/models.py:22 common/serializers.py:47
+msgid "Class Start"
+msgstr "شروع کلاس"
+
+#: common/models.py:23 common/serializers.py:48
+msgid "Class Finish"
+msgstr "پایان کلاس"
+
+#: common/models.py:24 common/serializers.py:49
+msgid "Substitution Start"
+msgstr "شروع جایگزینی"
+
+#: common/models.py:25 common/serializers.py:50
+msgid "Substitution Finish"
+msgstr "پایان جایگزینی"
+
+#: common/models.py:26 common/serializers.py:51
+msgid "Emergency Removal Finish"
+msgstr "پایان حذف اضطراری"
+
+#: common/models.py:27 common/serializers.py:52
+msgid "Exams Start"
+msgstr "شروع امتحانات"
+
+#: common/models.py:28 common/serializers.py:53
+msgid "Term Finish"
+msgstr "پایان ترم"
+
+#: common/models.py:29 common/serializers.py:54
+msgid "Include Valid Years"
+msgstr "شامل سال‌های معتبر"
+
+#: common/models.py:42 common/serializers.py:91
+msgid "Educational Group"
+msgstr "گروه آموزشی"
+
+#: common/models.py:44 common/serializers.py:93
+msgid "Units"
+msgstr "واحدها"
+
+#: common/models.py:45 common/serializers.py:94
+msgid "Grade"
+msgstr "نمره"
+
+#: common/serializers.py:92 course/serializers.py:23
+msgid "College"
+msgstr "دانشکده"
+
+#: course/models.py:8
+msgid "Saturday"
+msgstr "شنبه"
+
+#: course/models.py:9
+msgid "Sunday"
+msgstr "یک‌شنبه"
+
+#: course/models.py:10
+msgid "Monday"
+msgstr "دوشنبه"
+
+#: course/models.py:11
+msgid "Tuesday"
+msgstr "سه‌شنبه"
+
+#: course/models.py:12
+msgid "Wednesday"
+msgstr "چهارشنبه"
+
+#: course/models.py:13
+msgid "Thursday"
+msgstr "پنج‌شنبه"
+
+#: course/models.py:14
+msgid "Friday"
+msgstr "جمعه"
+
+#: course/models.py:17
+msgid "General"
+msgstr "عمومی"
+
+#: course/models.py:18
+msgid "Specialized"
+msgstr "تخصصی"
+
+#: course/models.py:19
+msgid "Basic"
+msgstr "پایه"
+
+#: course/models.py:26 course/serializers.py:26
+msgid "Unit"
+msgstr "واحد"
+
+#: course/models.py:27 course/serializers.py:27
+msgid "Lesson Type"
+msgstr "نوع درس"
+
+#: course/models.py:34 course/serializers.py:59
+msgid "Class Day"
+msgstr "روز کلاس"
+
+#: course/models.py:35 course/serializers.py:60
+msgid "Class Start Time"
+msgstr "زمان شروع کلاس"
+
+#: course/models.py:36 course/serializers.py:61
+msgid "Class Finish Time"
+msgstr "زمان پایان کلاس"
+
+#: course/models.py:37 course/serializers.py:62
+msgid "Class Location"
+msgstr "محل کلاس"
+
+#: course/models.py:38 course/serializers.py:63
+msgid "Exam Specifications"
+msgstr "مشخصات امتحان"
+
+#: course/models.py:40 course/serializers.py:65
+msgid "Capacity"
+msgstr "ظرفیت"
+
+#: course/models.py:44
+#, python-brace-format
+msgid ""
+"{lesson} in day: {class_day} in time: {class_start_time} in term: {term}"
+msgstr ""
+"{lesson} در روز: {class_day} در زمان: {class_start_time} در ترم: {term}"
+
+#: course/serializers.py:24
+msgid "Prerequisites"
+msgstr "پیش‌نیازها"
+
+#: course/serializers.py:25
+msgid "Requisites"
+msgstr "ضروری‌ها"
+
+#: course/serializers.py:33
+msgid "Can't create lesson for other colleges"
+msgstr "امکان ایجاد درس برای دیگر دانشکده‌ها وجود ندارد"
+
+#: course/serializers.py:39
+msgid "Can't update lesson for other colleges"
+msgstr "امکان به‌روزرسانی درس برای دیگر دانشکده‌ها وجود ندارد"
+
+#: course/serializers.py:58
+msgid "Lesson"
+msgstr "درس"
+
+#: course/serializers.py:66
+msgid "Term"
+msgstr "ترم"
+
+#: course/serializers.py:74
+msgid "The Course Substitution is passed"
+msgstr "جایگزینی درس با موفقیت انجام شد"
+
+#: course/serializers.py:80
+msgid "Can't create course that lesson is for other colleges"
+msgstr "امکان ایجاد درسی که درس مرتبط با دانشکده‌های دیگر است وجود ندارد"
+
+
+#: course/serializers.py:86
+msgid "Can't update course that lesson is for other colleges"
+msgstr "امکان به‌روزرسانی درسی که درس مرتبط با دانشکده‌های دیگر است وجود ندارد"
+
+#: course_selection/models.py:12
+msgid "Student Submit"
+msgstr "دانشجو ارسال کرد"
+
+#: course_selection/models.py:16
+msgid "Professor Rejected"
+msgstr "استاد رد کرد"
+
+#: course_selection/models.py:17
+msgid "Professor Valid"
+msgstr "استاد معتبر"
+
+#: course_selection/serializers.py:18
+msgid "The Course Selection time not started"
+msgstr "زمان انتخاب درس شروع نشده است"
+
+#: course_selection/serializers.py:20
+msgid "The Course Selection time has passed"
+msgstr "زمان انتخاب درس به پایان رسیده است"
+
+#: course_selection/serializers.py:78
+msgid "The Course Selection for this term already exists"
+msgstr "انتخاب درس برای این ترم از قبل وجود دارد"
+
+#: course_selection/serializers.py:85
+msgid "Not enough valid years"
+msgstr "تعداد سال‌های معتبر کافی نیست"
+
+#: course_selection/serializers.py:126
+msgid "The course selection status is not pending or rejected"
+msgstr "وضعیت انتخاب درس در انتظار یا رد شده نیست"
+
+#: course_selection/serializers.py:130
+msgid "The user already picked this course in this term"
+msgstr "کاربر این درس را در این ترم انتخاب کرده است"
+
+#: course_selection/serializers.py:134
+msgid "Course Prerequisites not passed"
+msgstr "پیش‌نیازهای درس گذرانده نشده‌اند"
+
+#: course_selection/serializers.py:138
+msgid "Lesson college does not match student college"
+msgstr "دانشکده درس با دانشکده دانشجو مطابقت ندارد"
+
+#: course_selection/serializers.py:142
+msgid "Course requisites not picked or passed"
+msgstr "ضروری‌های درس انتخاب یا گذرانده نشده‌اند"
+
+#: course_selection/serializers.py:146 course_selection/serializers.py:163
+msgid "Course doesn't have any capacity"
+msgstr "ظرفیتی برای این درس وجود ندارد"
+
+#: course_selection/serializers.py:150
+msgid "Course has time interference"
+msgstr "تداخل زمانی برای این درس وجود دارد"
+
+#: professor/views.py:71 professor/views.py:103
+msgid "You are not the professor of this student"
+msgstr "شما استاد این دانشجو نیستید"
+
+#: professor/views.py:149
+msgid "Class Schedule"
+msgstr "برنامه کلاس"
+
+#: professor/views.py:150
+msgid "Your class schedule is attached."
+msgstr "برنامه کلاس شما پیوست شده است."
+
+#: professor/views.py:157
+msgid "Exam Schedule"
+msgstr "برنامه امتحانات"
+
+#: professor/views.py:158
+msgid "Your exam schedule is attached."
+msgstr "برنامه امتحانات شما پیوست شده است."
+
+#: professor/views.py:165
+msgid "Course Selection Was Accepted"
+msgstr "انتخاب درس پذیرفته شد"
+
+#: professor/views.py:172
+msgid "Course Selection Was Rejected"
+msgstr "انتخاب درس رد شد"
+
+#: professor/views.py:177
+msgid "Invalid student ID or no pending courses for the current term"
+msgstr "شناسه دانشجو نامعتبر یا درس در انتظاری برای ترم فعلی وجود ندارد"
+
+#: professor/views.py:182
+msgid "No course selection request found for the current term"
+msgstr "درخواست انتخاب درسی برای ترم فعلی یافت نشد"
+
+#: student/views.py:78
+msgid ""
+"Can't delete course that is requisite of other course in this course "
+"selection"
+msgstr ""
+"امکان حذف درسی که پیش‌نیاز درس دیگری در این انتخاب درس وجود دارد نیست"
+
+#: student/views.py:94
+msgid "Course selection not in pending"
+msgstr "انتخاب درس در وضعیت انتظار نیست"
+
+#: student/views.py:105
+msgid "Course selection submitted"
+msgstr "انتخاب درس ارسال شد"

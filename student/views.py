@@ -1,5 +1,6 @@
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext as _
 from rest_framework import viewsets, status, serializers
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -74,8 +75,8 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
         if student_course.registration.student_courses.filter(
                 course__lesson__requisites=student_course.course.lesson
         ).exists():
-            return Response({"msg": "Can't delete course that is requisite of other course"
-                                    " in this course selection"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": _("Can't delete course that is requisite of other course"
+                                    " in this course selection")}, status=status.HTTP_400_BAD_REQUEST)
         with transaction.atomic():
             student_course.course.increase_capacity()
             return super().destroy(request, *args, **kwargs)
@@ -90,7 +91,7 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
 
         # Check status of course selection
         if not course_selection.status == StatusChoices.Pending:
-            return Response({"msg": "Course selection not in pending"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg": _("Course selection not in pending")}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check the selection time
         try:
@@ -101,4 +102,4 @@ class StudentCourseSelectionViewSet(mixins.CreateModelMixin,
         # Change the course selection pending
         course_selection.status = CourseSelectionStatusChoices.StudentSubmit
         course_selection.save()
-        return Response({"msg": "Course selection submitted"}, status=status.HTTP_200_OK)
+        return Response({"msg": _("Course selection submitted")}, status=status.HTTP_200_OK)

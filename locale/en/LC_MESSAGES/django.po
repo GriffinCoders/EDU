@@ -1,0 +1,412 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-20 16:47+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: EDU/settings.py:143
+msgid "English"
+msgstr "English"
+
+#: EDU/settings.py:144
+msgid "Farsi"
+msgstr "Farsi"
+
+#: account/admin.py:11
+msgid "Personal info"
+msgstr "Personal info"
+
+#: account/admin.py:13
+msgid "Permissions"
+msgstr "Permissions"
+
+#: account/admin.py:24
+msgid "Important dates"
+msgstr "Important dates"
+
+#: account/models.py:8
+msgid "Male"
+msgstr "Male"
+
+#: account/models.py:9
+msgid "Female"
+msgstr "Female"
+
+#: account/models.py:12
+msgid "Student"
+msgstr "Student"
+
+#: account/models.py:13 course/serializers.py:64
+msgid "Professor"
+msgstr "Professor"
+
+#: account/models.py:14
+msgid "IT Manager"
+msgstr "IT Manager"
+
+#: account/models.py:15
+msgid "Educational Assistance"
+msgstr "Educational Assistance"
+
+#: account/serializers.py:9
+msgid "Username"
+msgstr "Username"
+
+#: account/serializers.py:24
+msgid "Unable to log in with provided credentials."
+msgstr "Unable to log in with provided credentials."
+
+#: account/serializers.py:27
+msgid "Must include \"username\" and \"password\"."
+msgstr "Must include \"username\" and \"password\"."
+
+#: account/views.py:46
+msgid "User not found!"
+msgstr "User not found!"
+
+#: account/views.py:60
+msgid "Otp sent"
+msgstr "Otp sent"
+
+#: account/views.py:62
+msgid "Otp already sent"
+msgstr "Otp already sent"
+
+#: account/views.py:65
+msgid "Must include otp and new password"
+msgstr "Must include otp and new password"
+
+#: account/views.py:69
+msgid "Invalid otp"
+msgstr "Invalid otp"
+
+#: account/views.py:74
+msgid "New password saved"
+msgstr "New password saved"
+
+#: common/models.py:5
+msgid "Valid"
+msgstr "Valid"
+
+#: common/models.py:6 course_selection/models.py:13
+msgid "Deleted"
+msgstr "Deleted"
+
+#: common/models.py:7 course_selection/models.py:14
+msgid "Pending"
+msgstr "Pending"
+
+#: common/models.py:8 course_selection/models.py:15
+msgid "Failed"
+msgstr "Failed"
+
+#: common/models.py:9
+msgid "Rejected"
+msgstr "Rejected"
+
+#: common/models.py:12 common/serializers.py:55 common/serializers.py:71
+#: common/serializers.py:95
+msgid "Created at"
+msgstr "Created at"
+
+#: common/models.py:13 common/serializers.py:56 common/serializers.py:72
+#: common/serializers.py:96
+msgid "Updated at"
+msgstr "Updated at"
+
+#: common/models.py:19 common/models.py:35 common/models.py:41
+#: common/serializers.py:44 common/serializers.py:70 common/serializers.py:90
+#: course/models.py:22 course/serializers.py:22
+msgid "Name"
+msgstr "Name"
+
+#: common/models.py:20 common/serializers.py:45
+msgid "Selection Start"
+msgstr "Selection Start"
+
+#: common/models.py:21 common/serializers.py:46
+msgid "Selection Finish"
+msgstr "Selection Finish"
+
+#: common/models.py:22 common/serializers.py:47
+msgid "Class Start"
+msgstr "Class Start"
+
+#: common/models.py:23 common/serializers.py:48
+msgid "Class Finish"
+msgstr "Class Finish"
+
+#: common/models.py:24 common/serializers.py:49
+msgid "Substitution Start"
+msgstr "Substitution Start"
+
+#: common/models.py:25 common/serializers.py:50
+msgid "Substitution Finish"
+msgstr "Substitution Finish"
+
+#: common/models.py:26 common/serializers.py:51
+msgid "Emergency Removal Finish"
+msgstr "Emergency Removal Finish"
+
+#: common/models.py:27 common/serializers.py:52
+msgid "Exams Start"
+msgstr "Exams Start"
+
+#: common/models.py:28 common/serializers.py:53
+msgid "Term Finish"
+msgstr "Term Finish"
+
+#: common/models.py:29 common/serializers.py:54
+msgid "Include Valid Years"
+msgstr "Include Valid Years"
+
+#: common/models.py:42 common/serializers.py:91
+msgid "Educational Group"
+msgstr "Educational Group"
+
+#: common/models.py:44 common/serializers.py:93
+msgid "Units"
+msgstr "Units"
+
+#: common/models.py:45 common/serializers.py:94
+msgid "Grade"
+msgstr "Grade"
+
+#: common/serializers.py:92 course/serializers.py:23
+msgid "College"
+msgstr "College"
+
+#: course/models.py:8
+msgid "Saturday"
+msgstr "Saturday"
+
+#: course/models.py:9
+msgid "Sunday"
+msgstr "Sunday"
+
+#: course/models.py:10
+msgid "Monday"
+msgstr "Monday"
+
+#: course/models.py:11
+msgid "Tuesday"
+msgstr "Tuesday"
+
+#: course/models.py:12
+msgid "Wednesday"
+msgstr "Wednesday"
+
+#: course/models.py:13
+msgid "Thursday"
+msgstr "Thursday"
+
+#: course/models.py:14
+msgid "Friday"
+msgstr "Friday"
+
+#: course/models.py:17
+msgid "General"
+msgstr "General"
+
+#: course/models.py:18
+msgid "Specialized"
+msgstr "Specialized"
+
+#: course/models.py:19
+msgid "Basic"
+msgstr "Basic"
+
+#: course/models.py:26 course/serializers.py:26
+msgid "Unit"
+msgstr "Unit"
+
+#: course/models.py:27 course/serializers.py:27
+msgid "Lesson Type"
+msgstr "Lesson Type"
+
+#: course/models.py:34 course/serializers.py:59
+msgid "Class Day"
+msgstr "Class Day"
+
+#: course/models.py:35 course/serializers.py:60
+msgid "Class Start Time"
+msgstr "Class Start Time"
+
+#: course/models.py:36 course/serializers.py:61
+msgid "Class Finish Time"
+msgstr "Class Finish Time"
+
+#: course/models.py:37 course/serializers.py:62
+msgid "Class Location"
+msgstr "Class Location"
+
+#: course/models.py:38 course/serializers.py:63
+msgid "Exam Specifications"
+msgstr "Exam Specifications"
+
+#: course/models.py:40 course/serializers.py:65
+msgid "Capacity"
+msgstr "Capacity"
+
+#: course/models.py:44
+#, python-brace-format
+msgid ""
+"{lesson} in day: {class_day} in time: {class_start_time} in term: {term}"
+msgstr ""
+"{lesson} in day: {class_day} in time: {class_start_time} in term: {term}"
+
+#: course/serializers.py:24
+msgid "Prerequisites"
+msgstr "Prerequisites"
+
+#: course/serializers.py:25
+msgid "Requisites"
+msgstr "Requisites"
+
+#: course/serializers.py:33
+msgid "Can't create lesson for other colleges"
+msgstr "Can't create lesson for other colleges"
+
+#: course/serializers.py:39
+msgid "Can't update lesson for other colleges"
+msgstr "Can't update lesson for other colleges"
+
+#: course/serializers.py:58
+msgid "Lesson"
+msgstr "Lesson"
+
+#: course/serializers.py:66
+msgid "Term"
+msgstr "Term"
+
+#: course/serializers.py:74
+msgid "The Course Substitution is passed"
+msgstr "The Course Substitution is passed"
+
+#: course/serializers.py:80
+msgid "Can't create course that lesson is for other colleges"
+msgstr "Can't create course that lesson is for other colleges"
+
+#: course/serializers.py:86
+msgid "Can't update course that lesson is for other colleges"
+msgstr "Can't update course that lesson is for other colleges"
+
+#: course_selection/models.py:12
+msgid "Student Submit"
+msgstr "Student Submit"
+
+#: course_selection/models.py:16
+msgid "Professor Rejected"
+msgstr "Professor Rejected"
+
+#: course_selection/models.py:17
+msgid "Professor Valid"
+msgstr "Professor Valid"
+
+#: course_selection/serializers.py:18
+msgid "The Course Selection time not started"
+msgstr "The Course Selection time not started"
+
+#: course_selection/serializers.py:20
+msgid "The Course Selection time has passed"
+msgstr "The Course Selection time has passed"
+
+#: course_selection/serializers.py:78
+msgid "The Course Selection for this term already exists"
+msgstr "The Course Selection for this term already exists"
+
+#: course_selection/serializers.py:85
+msgid "Not enough valid years"
+msgstr "Not enough valid years"
+
+#: course_selection/serializers.py:126
+msgid "The course selection status is not pending or rejected"
+msgstr "The course selection status is not pending or rejected"
+
+#: course_selection/serializers.py:130
+msgid "The user already picked this course in this term"
+msgstr "The user already picked this course in this term"
+
+#: course_selection/serializers.py:134
+msgid "Course Prerequisites not passed"
+msgstr "Course Prerequisites not passed"
+
+#: course_selection/serializers.py:138
+msgid "Lesson college does not match student college"
+msgstr "Lesson college does not match student college"
+
+#: course_selection/serializers.py:142
+msgid "Course requisites not picked or passed"
+msgstr "Course requisites not picked or passed"
+
+#: course_selection/serializers.py:146 course_selection/serializers.py:163
+msgid "Course doesn't have any capacity"
+msgstr "Course doesn't have any capacity"
+
+#: course_selection/serializers.py:150
+msgid "Course has time interference"
+msgstr "Course has time interference"
+
+#: professor/views.py:71 professor/views.py:103
+msgid "You are not the professor of this student"
+msgstr "You are not the professor of this student"
+
+#: professor/views.py:149
+msgid "Class Schedule"
+msgstr "Class Schedule"
+
+#: professor/views.py:150
+msgid "Your class schedule is attached."
+msgstr "Your class schedule is attached."
+
+#: professor/views.py:157
+msgid "Exam Schedule"
+msgstr "Exam Schedule"
+
+#: professor/views.py:158
+msgid "Your exam schedule is attached."
+msgstr "Your exam schedule is attached."
+
+#: professor/views.py:165
+msgid "Course Selection Was Accepted"
+msgstr "Course Selection Was Accepted"
+
+#: professor/views.py:172
+msgid "Course Selection Was Rejected"
+msgstr "Course Selection Was Rejected"
+
+#: professor/views.py:177
+msgid "Invalid student ID or no pending courses for the current term"
+msgstr "Invalid student ID or no pending courses for the current term"
+
+#: professor/views.py:182
+msgid "No course selection request found for the current term"
+msgstr "No course selection request found for the current term"
+
+#: student/views.py:78
+msgid ""
+"Can't delete course that is requisite of other course in this course "
+"selection"
+msgstr ""
+"Can't delete course that is requisite of other course in this course selection"
+
+#: student/views.py:94
+msgid "Course selection not in pending"
+msgstr "Course selection not in pending"
+
+#: student/views.py:105
+msgid "Course selection submitted"
+msgstr "Course selection submitted"

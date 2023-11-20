@@ -27,3 +27,4 @@ class AssistanceProfessorViewSet(ProfessorViewSet):
         return ProfessorProfile.objects.filter(college_id=college_id).select_related(
             'user', 'college', 'field',
         )
+
