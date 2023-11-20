@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 import pytest
 
-from it_manager.tests.conftest import oridionary_user
+from it_manager.tests.conftest import ordinary_user
 
 
 @pytest.fixture
@@ -80,7 +80,7 @@ class TestProfessorCreation:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, oridionary_user):
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, ordinary_user):
         """
         Test if the user is not authorized to create a professor.
 
@@ -99,7 +99,7 @@ class TestProfessorCreation:
         
         professor = professor_data
 
-        response = make_authenticated_request('POST', 'it_manager:create_professor', data=professor, format='json', user=oridionary_user)
+        response = make_authenticated_request('POST', 'it_manager:create_professor', data=professor, format='json', user=ordinary_user)
      
         assert response.status_code == status.HTTP_403_FORBIDDEN, "Expected 403 Forbidden status code"
 
@@ -168,7 +168,7 @@ class TestProfessorRetrieve:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, oridionary_user):
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, ordinary_user):
         """
         Check if the user is not authorized to perform a certain action.
 
@@ -183,7 +183,7 @@ class TestProfessorRetrieve:
 
         professor = professor_instance_one
 
-        response = make_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json', user=oridionary_user)
+        response = make_authenticated_request('GET', 'it_manager:detail_professor', args=[professor.id], format='json', user=ordinary_user)
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
     
@@ -230,7 +230,8 @@ class TestProfessorList:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
 
-    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, professor_instance_two, professor_instance_three, oridionary_user):
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, professor_instance_two, professor_instance_three,
+                                       ordinary_user):
         """
         Check if the user is not authorized to access a specific resource.
 
@@ -249,7 +250,7 @@ class TestProfessorList:
         professor2 = professor_instance_two
         professor3 = professor_instance_three
 
-        response = make_authenticated_request('GET', 'it_manager:list_professors', format='json', user=oridionary_user)
+        response = make_authenticated_request('GET', 'it_manager:list_professors', format='json', user=ordinary_user)
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
@@ -300,7 +301,8 @@ class TestProfessorUpdate:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
 
-    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, professor_instance_one, oridionary_user):
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_data, professor_instance_one,
+                                       ordinary_user):
         """
         Test if the user is not authorized to update a professor.
         
@@ -317,7 +319,7 @@ class TestProfessorUpdate:
         professor = professor_instance_one
         updated_professor_data_professor = professor_data
 
-        response = make_authenticated_request('PUT', 'it_manager:update_professor', args=[professor.id], data=updated_professor_data_professor, format='json', user=oridionary_user)
+        response = make_authenticated_request('PUT', 'it_manager:update_professor', args=[professor.id], data=updated_professor_data_professor, format='json', user=ordinary_user)
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
@@ -362,7 +364,7 @@ class TestProfessorDelete:
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED, "Expected 401 Unauthorized status code"
 
-    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, oridionary_user):
+    def test_if_user_is_not_authorized(self, make_authenticated_request, professor_instance_one, ordinary_user):
         """
         Test if the user is anonymous.
 
@@ -377,7 +379,7 @@ class TestProfessorDelete:
 
         professor = professor_instance_one
 
-        response = make_authenticated_request('DELETE', 'it_manager:delete_professor', args=[professor.id], data=professor, format='json', user=oridionary_user)
+        response = make_authenticated_request('DELETE', 'it_manager:delete_professor', args=[professor.id], data=professor, format='json', user=ordinary_user)
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 

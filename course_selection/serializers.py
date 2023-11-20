@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework import serializers
 
@@ -14,9 +15,9 @@ from student.models import StudentProfile
 def check_term_course_selection_time(term: Term):
     now = timezone.now()
     if term.selection_start > now:
-        raise serializers.ValidationError("The Course Selection time not started")
+        raise serializers.ValidationError(_("The Course Selection time not started"))
     if term.selection_finish < now:
-        raise serializers.ValidationError("The Course Selection time has passed")
+        raise serializers.ValidationError(_("The Course Selection time has passed"))
 
 
 class StudentCoursesSerializer(serializers.ModelSerializer):
@@ -74,14 +75,14 @@ class CourseSelectionRequestSerializer(serializers.ModelSerializer):
         term: Term = attrs.get('term')
         student: StudentProfile = self.context['student_obj']
         if CourseSelectionRequest.objects.filter(student=student, term=term).exists():
-            raise serializers.ValidationError("The Course Selection for this term already exists")
+            raise serializers.ValidationError(_("The Course Selection for this term already exists"))
 
         # Check the selection time
         check_term_course_selection_time(term)
 
         # Check the valid years
         if not CourseSelectionRequest.check_student_valid_years(student):
-            raise serializers.ValidationError("Not enough valid years")
+            raise serializers.ValidationError(_("Not enough valid years"))
 
         # Check the last term gpa
         attrs['valid_unit'] = 20
@@ -122,31 +123,31 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
         # check if the course selection status
         if CourseSelectionRequest.status not in (CourseSelectionStatusChoices.Pending,
                                                  CourseSelectionStatusChoices.ProfessorRejected):
-            raise serializers.ValidationError("The course selection status is not pending or rejected")
+            raise serializers.ValidationError(_("The course selection status is not pending or rejected"))
 
         # Check the duplication course
         if StudentCourse.objects.filter(registration=self.course_selection, course=course):
-            raise serializers.ValidationError("The user already picked this course in this term")
+            raise serializers.ValidationError(_("The user already picked this course in this term"))
 
         # Check the course prerequisites
         if not self.course_selection.check_student_pass_the_course_prerequisites(course):
-            raise serializers.ValidationError("Course Prerequisites not passed")
+            raise serializers.ValidationError(_("Course Prerequisites not passed"))
 
         # Check lesson college
         if not course.lesson.college == self.course_selection.student.college:
-            raise serializers.ValidationError("Lesson college does not match student college")
+            raise serializers.ValidationError(_("Lesson college does not match student college"))
 
         # Check requisites
         if not self.course_selection.check_student_course_requisites(course):
-            raise serializers.ValidationError("Course requisites not picked or passed")
+            raise serializers.ValidationError(_("Course requisites not picked or passed"))
 
         # Check course capacity
         if not course.capacity > 0:
-            raise serializers.ValidationError("Course doesn't have any capacity")
+            raise serializers.ValidationError(_("Course doesn't have any capacity"))
 
         # Check course time interference
         if self.course_selection.has_time_interference(course):
-            raise serializers.ValidationError("Course has time interference")
+            raise serializers.ValidationError(_("Course has time interference"))
 
         return attrs
 
@@ -159,5 +160,5 @@ class CourseSelectionSerializer(serializers.ModelSerializer):
 
             # subtract course capacity
             if not validated_data['course'].subtract_capacity():
-                raise serializers.ValidationError("Course doesn't have any capacity")
+                raise serializers.ValidationError(_("Course doesn't have any capacity"))
         return obj

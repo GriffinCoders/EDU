@@ -12,7 +12,6 @@ from educational_assistance.serializers import EducationalAssistanceSerializer
 from professor.serializers import ProfessorSerializer
 from .permissions import IsItManager
 
-
 from student.serializers import StudentSerializer
 from student.models import StudentProfile
 
@@ -83,7 +82,7 @@ class ListProfessorProfile(ListModelMixin, generics.GenericAPIView):
             queryset = queryset.filter(academic_rank=order)
 
         return queryset
-    
+
     def get(self, request, *args, **kwargs):
         """
         Get method for the API endpoint.
@@ -97,7 +96,7 @@ class ListProfessorProfile(ListModelMixin, generics.GenericAPIView):
             HttpResponse: The HTTP response object.
         """
         return self.list(request, *args, **kwargs)
-    
+
 
 class CreateProfessorProfileView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsItManager]
@@ -127,8 +126,6 @@ class DeleteProfessorProfileView(generics.DestroyAPIView):
     queryset = ProfessorProfile.objects.all()
 
 
-
-
 class ListStudentProfile(ListModelMixin, generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsItManager]
     serializer_class = StudentSerializer
@@ -145,7 +142,7 @@ class ListStudentProfile(ListModelMixin, generics.GenericAPIView):
         meli_code = self.request.query_params.get('meli_code')
         college_name = self.request.query_params.get('college_name')
         field_name = self.request.query_params.get('field_name')
-        order = self.request.query_params.get('order')
+        # order = self.request.query_params.get('order')
 
         if name:
             queryset = queryset.filter(user__first_name__icontains=name)
@@ -160,13 +157,12 @@ class ListStudentProfile(ListModelMixin, generics.GenericAPIView):
         if field_name:
             queryset = queryset.filter(field__name__icontains=field_name)
 
-
         return queryset
-    
+
     def get(self, request, *args, **kwargs):
 
         return self.list(request, *args, **kwargs)
-    
+
 
 class CreateStudentProfileView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated, IsItManager]

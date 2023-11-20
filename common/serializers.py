@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils.translation import gettext_lazy as _
 
 from .models import Term, College, Field
 
@@ -39,6 +40,21 @@ class TermSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+        labels = {
+            "name": _("Name"),
+            "selection_start": _("Selection Start"),
+            "selection_finish": _("Selection Finish"),
+            "class_start": _("Class Start"),
+            "class_finish": _("Class Finish"),
+            "substitution_start": _("Substitution Start"),
+            "substitution_finish": _("Substitution Finish"),
+            "emergency_removal_finish": _("Emergency Removal Finish"),
+            "exams_start": _("Exams Start"),
+            "term_finish": _("Term Finish"),
+            "include_valid_years": _("Include Valid Years"),
+            'created_at': _("Created at"),
+            'updated_at': _("Updated at"),
+        }
 
 
 class CollegeSerializer(serializers.ModelSerializer):
@@ -50,6 +66,11 @@ class CollegeSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+        labels = {
+            "name": _("Name"),
+            'created_at': _("Created at"),
+            'updated_at': _("Updated at"),
+        }
 
 
 class FieldSerializer(serializers.ModelSerializer):
@@ -65,3 +86,12 @@ class FieldSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+        labels = {
+            'name': _("Name"),
+            'educational_group': _("Educational Group"),
+            'college': _("College"),
+            'units': _("Units"),
+            'grade': _("Grade"),
+            'created_at': _("Created at"),
+            'updated_at': _("Updated at"),
+        }

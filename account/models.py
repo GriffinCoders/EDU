@@ -1,27 +1,26 @@
 import random
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.utils.translation import gettext as _
 from common.models import College, Field, Term, BaseModel
 
 
 class GenderChoices(models.TextChoices):
-    MALE = '0', 'Male'
-    FEMALE = '1', 'Female'
+    Male = '0', _('Male')
+    Female = '1', _('Female')
 
 
 class UserRoleChoices(models.TextChoices):
-    Student = '0', 'Student'
-    Professor = '1', 'Professor'
-    ItManager = '2', 'ItManager'
-    EducationalAssistance = '3', 'EducationalAssistance'
+    Student = '0', _('Student')
+    Professor = '1', _('Professor')
+    ItManager = '2', _('IT Manager')
+    EducationalAssistance = '3', _('Educational Assistance')
 
 
 class User(AbstractUser, BaseModel):
     profile_pic = models.ImageField(null=True, blank=True, upload_to='profiles')
     meli_code = models.CharField(max_length=10, null=True, blank=True)
-    gender = models.CharField(max_length=1, null=True, blank=True)
+    gender = models.CharField(max_length=1, null=True, blank=True, choices=GenderChoices.choices)
     birth_date = models.DateField(null=True, blank=True)
     role = models.CharField(max_length=1, choices=UserRoleChoices.choices)
 

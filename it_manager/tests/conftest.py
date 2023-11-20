@@ -3,7 +3,7 @@ from professor.models import ProfessorProfile
 from it_manager.models import ItManagerProfile
 from common.models import College, Field
 import pytest
-import pytest
+
 
 @pytest.fixture
 def user_data(db):
@@ -30,6 +30,7 @@ def user_data(db):
         "email": user.email,
     }
 
+
 @pytest.fixture
 def it_manager_user():
     """
@@ -49,11 +50,12 @@ def it_manager_user():
     ItManagerProfile.objects.create(user=user)
     return user
 
+
 @pytest.fixture
-def oridionary_user():
+def ordinary_user():
     user = User.objects.create(
-        first_name="oridionary_user_name",
-        last_name="oridionary_user_last_name",
+        first_name="ordinary_user_name",
+        last_name="ordinary_user_last_name",
         meli_code="0069852369",
         gender="F",
         birth_date="1993-01-01",
@@ -69,16 +71,17 @@ def college_data(db):
     Fixture to create and return college data.
     """
     college = College.objects.create(
-        name="Test College", 
-        )
+        name="Test College",
+    )
 
     return {
         "college": college,
         "college_name": college.name,
         "college_id": college.id,
-        "college_created_at" : college.created_at,
-        "college_updated_at" : college.updated_at,
+        "college_created_at": college.created_at,
+        "college_updated_at": college.updated_at,
     }
+
 
 @pytest.fixture
 def field_data(db, college_data):
@@ -92,13 +95,13 @@ def field_data(db, college_data):
         units=10,
         grade="A",
     )
-    
+
     return {
         "field": field,
         "field_name": field.name,
         "field_id": field.id,
-        "field_created_at" : field.created_at,
-        "field_updated_at" : field.updated_at,
+        "field_created_at": field.created_at,
+        "field_updated_at": field.updated_at,
         "field_college_name": field.college.name,
         "field_college_id": field.college.id,
         "field_educational_group": field.educational_group,
@@ -120,6 +123,7 @@ def professor_data(user_data, college_data, field_data):
         "order": "Test Professor Order",
     }
 
+
 @pytest.fixture
 def professor_instance_one(college_data, field_data):
     user = User.objects.create(
@@ -136,11 +140,12 @@ def professor_instance_one(college_data, field_data):
         user=user,
         college=college_data["college"],
         field=field_data["field"],
-        orientation= "Test Professor Orientation",
-        order= "Test Professor Order",
+        orientation="Test Professor Orientation",
+        order="Test Professor Order",
     )
-    
+
     return professor
+
 
 @pytest.fixture
 def professor_instance_two(college_data, field_data):
@@ -158,11 +163,12 @@ def professor_instance_two(college_data, field_data):
         user=user,
         college=college_data["college"],
         field=field_data["field"],
-        orientation= "Test Professor Orientation",
-        order= "Test Professor Order",
+        orientation="Test Professor Orientation",
+        order="Test Professor Order",
     )
 
     return professor
+
 
 @pytest.fixture
 def professor_instance_three(college_data, field_data):
@@ -180,8 +186,8 @@ def professor_instance_three(college_data, field_data):
         user=user,
         college=college_data["college"],
         field=field_data["field"],
-        orientation= "Test Professor Orientation",
-        order= "Test Professor Order",
+        orientation="Test Professor Orientation",
+        order="Test Professor Order",
     )
 
     return professor

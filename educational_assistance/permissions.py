@@ -1,4 +1,4 @@
-from rest_framework.permissions import SAFE_METHODS, BasePermission
+from rest_framework.permissions import BasePermission
 
 from account.models import UserRoleChoices
 from educational_assistance.models import EducationalAssistanceProfile
