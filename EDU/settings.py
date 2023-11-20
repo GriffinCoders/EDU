@@ -71,8 +71,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'EDU.urls'
@@ -145,6 +143,10 @@ LANGUAGE_CODE = 'en-us'
 LANGUAGES = [
     ('en', _('English')),
     ('fa', _('Farsi')),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale/',
 ]
 
 TIME_ZONE = 'UTC'

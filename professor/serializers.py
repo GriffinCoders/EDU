@@ -34,10 +34,6 @@ class ProfessorSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         return update_user_profile(instance, validated_data)
 
+
 class AcceptOrRejectStudentFormSerializer(serializers.Serializer):
     is_accepted = serializers.BooleanField()
-
-
-
-    
-
