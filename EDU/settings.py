@@ -14,6 +14,9 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+import logging
 
 load_dotenv()
 
@@ -223,3 +226,25 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 # TODO: set email backend configs
+
+
+# LOGGING
+
+sentry_sdk.init(
+    dsn="https://0ffef5d2954aadabfdc7dc8c567a9687@sentry.hamravesh.com/5890",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    integrations=[DjangoIntegration()]
+)
+
+# Configure file logging with Common Log Format
+log_file_path = Path(__file__).resolve().parent / 'logs'  # Adjust the path as needed
+log_file_path.mkdir(exist_ok=True, parents=True)
+log_file = log_file_path / 'django.log'
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.INFO,  # Set the desired log level
+    format='%(asctime)s %(levelname)s %(message)s',
+)
