@@ -14,8 +14,16 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import sentry_sdk
 
 load_dotenv()
+
+sentry_sdk.init(
+    dsn="https://0ffef5d2954aadabfdc7dc8c567a9687@sentry.hamravesh.com/5890",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
