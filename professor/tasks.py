@@ -5,7 +5,6 @@ from django.core.mail import EmailMessage
 
 @shared_task(serializer='json', name="send_email_class_schedule")
 def send_email_class_schedule(subject, message, sender, receiver, attachment=None):
-    time.sleep(20)
     email = EmailMessage(subject, message, sender, [receiver])
 
     if attachment:
@@ -17,7 +16,6 @@ def send_email_class_schedule(subject, message, sender, receiver, attachment=Non
 
 @shared_task(serializer='json', name="send_email_exam_schedule")
 def send_email_exam_schedule(subject, message, sender, receiver, attachment=None):
-    time.sleep(20)
     email = EmailMessage(subject, message, sender, [receiver])
 
     if attachment:

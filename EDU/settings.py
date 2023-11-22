@@ -218,9 +218,9 @@ AWS_S3_ENDPOINT_URL = os.getenv("MINIO_ENDPOINT")
 # AWS_S3_ENDPOINT_URL = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_DISPLAY_S3_ENDPOINT_URL}"
 
 
-CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
-CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_BROKER_URL = 'redis://redis:6379/2'
 
+# CELERY_RESULT_BACKEND = 'rpc://'
 # CELERY_BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
 # CELERY_RESULT_BACKEND = 'rpc://'
 # CELERY_ACCEPT_CONTENT = ['application/json']
@@ -250,11 +250,8 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': lambda request: True
 }
 
-# TODO: set email backend configs
-
 
 # LOGGING
-
 sentry_sdk.init(
     dsn="https://0ffef5d2954aadabfdc7dc8c567a9687@sentry.hamravesh.com/5890",
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -262,7 +259,6 @@ sentry_sdk.init(
     traces_sample_rate=1.0,
     integrations=[DjangoIntegration()]
 )
-
 # Configure file logging with Common Log Format
 log_file_path = Path(__file__).resolve().parent / 'logs'  # Adjust the path as needed
 log_file_path.mkdir(exist_ok=True, parents=True)

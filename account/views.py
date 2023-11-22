@@ -10,6 +10,7 @@ from rest_framework.authtoken.models import Token
 
 from . import serializers
 from .models import User
+from .tasks import send_otp_email
 
 
 class TokenLoginView(APIView):
@@ -59,8 +60,8 @@ class ResetPasswordView(APIView):
             if not cached_otp:
                 random.seed()
                 otp = str(random.randint(111111, 999999))
-                # TODO: send the otp
                 print("otp: " + otp)
+                send_otp_email(otp, user.email)
                 cache.set(cache_prefix, otp, timeout=90)
                 return Response({"msg": _("Otp sent")}, status.HTTP_200_OK)
             else:
