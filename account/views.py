@@ -11,6 +11,7 @@ from rest_framework.authtoken.models import Token
 from . import serializers
 from .models import User
 
+
 class TokenLoginView(APIView):
     permission_classes = [permissions.AllowAny]
     authentication_classes = []
@@ -23,6 +24,7 @@ class TokenLoginView(APIView):
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
 
+
 class TokenLogoutView(APIView):
     @staticmethod
     def post(request, *args, **kwargs):
@@ -31,6 +33,7 @@ class TokenLogoutView(APIView):
         except Token.DoesNotExist:
             pass
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class ResetPasswordView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -44,6 +47,8 @@ class ResetPasswordView(APIView):
             user = User.objects.get(email=ser.validated_data.get('email'))
         except User.DoesNotExist:
             return Response({"msg": _("User not found!")}, status=status.HTTP_400_BAD_REQUEST)
+        except User.MultipleObjectsReturned:
+            return Response({"msg": _("Multiple user found!")}, status=status.HTTP_400_BAD_REQUEST)
 
         user_otp = ser.validated_data.get("otp", None)
         new_password = ser.validated_data.get("new_password", None)
