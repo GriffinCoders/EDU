@@ -21,7 +21,7 @@ from .pdf_generator import class_schedule, exam_schedule
 
 class ProfessorViewSet(viewsets.ModelViewSet):
     serializer_class = ProfessorSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsProfessor]
     http_method_names = ['get', 'put']
 
     def get_queryset(self):

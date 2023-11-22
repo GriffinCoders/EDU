@@ -21,6 +21,7 @@ class AssistanceStudentViewSet(StudentViewSet):
 
 class AssistanceProfessorViewSet(ProfessorViewSet):
     serializer_class = ProfessorSerializer
+    permission_classes = [IsAuthenticated, IsEducationalAssistance]
 
     def get_queryset(self):
         college_id = EducationalAssistanceProfile.objects.get(user=self.request.user).college_id

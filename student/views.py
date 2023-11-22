@@ -19,7 +19,7 @@ from .throtteling import StudentRateThrottle
 
 class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = StudentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStudent]
     http_method_names = ['get', 'put']
     throttle_classes = [StudentRateThrottle]
 
